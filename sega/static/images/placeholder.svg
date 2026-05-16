@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450">
+  <rect width="100%" height="100%" fill="#f0f0f0"/>
+  <rect x="40" y="40" width="720" height="370" rx="12" fill="#e4e4e4" stroke="#cfcfcf" stroke-width="2"/>
+  <text x="400" y="215" text-anchor="middle" font-family="system-ui,sans-serif" font-size="22" fill="#888">
+    Replace with figure / video
+  </text>
+  <text x="400" y="255" text-anchor="middle" font-family="system-ui,sans-serif" font-size="15" fill="#aaa">
+    static/images/
+  </text>
+</svg>

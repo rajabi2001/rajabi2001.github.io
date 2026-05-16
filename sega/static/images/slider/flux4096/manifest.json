@@ -1,0 +1,69 @@
+{
+  "note": "",
+  "slides": [
+    {
+      "label": "A mysterious woman stands confidently in elaborate, dark armor adorned with intricate designs, holding a staff, against a backdrop of smoke and an ominous red sky, with shadowy, gothic buildings in the distance.",
+      "file": "flux_01.png"
+    },
+    {
+      "label": "A woman with glasses and a sword poses confidently beside a muscular man in traditional attire holding a sword, while a small creature with a large hat waves enthusiastically. In the background, figures in colorful kimonos walk along a bridge under lanterns and cherry blossoms.",
+      "file": "flux_02.png"
+    },
+    {
+      "label": "A wooden cabin sits in a snowy landscape, surrounded by evergreen trees and towering mountains under a colorful, cloud-streaked sky at dusk.",
+      "file": "flux_03.png"
+    },
+    {
+      "label": "A towering brown bear stands on its hind legs in a misty forest, surrounded by tall trees and moss-covered rocks, with sunlight filtering through the foliage.",
+      "file": "flux_04.png"
+    },
+    {
+      "label": "A young man in a black ruffled outfit, adorned with a laurel crown, stands with his left hand resting on a pink pedestal, holding a book in his right hand. His expression is calm, and he gazes directly at the viewer against a backdrop of muted colors and classical architectural elements.",
+      "file": "flux_05.png"
+    },
+    {
+      "label": "A serene landscape featuring abstract, dark-colored mountains and vivid blue water beneath dramatic, swirling clouds, illuminated by bright beams of light streaming from above.",
+      "file": "flux_06.png"
+    },
+    {
+      "label": "A solitary tree stands in calm water against a backdrop of mountains, illuminated by a soft, golden sunset sky.",
+      "file": "flux_07.png"
+    },
+    {
+      "label": "A chaotic battle scene featuring various fantasy characters, including an armored orc, ethereal figures, a menacing dragon-like creature, and dark sorceresses, all engaged in intense combat amongst a backdrop of ruins and ominous lighting.",
+      "file": "flux_08.png"
+    },
+    {
+      "label": "A vibrant village with colorful houses and a picturesque castle is set against a backdrop of mountains and a clear blue sky, with bustling crowds walking along a stone bridge and a serene lake reflecting the scenery.",
+      "file": "flux_09.png"
+    },
+    {
+      "label": "Snow-capped mountains loom in the background, their peaks reflected in a calm lake surrounded by a rocky shore and green pine trees.",
+      "file": "flux_10.png"
+    },
+    {
+      "label": "A lone hiker stands on a rocky outcrop, overlooking a stunning landscape of dramatic mountains and a serene, reflective body of water at sunset, with vibrant hues of orange, pink, and purple in the sky.",
+      "file": "flux_11.png"
+    },
+    {
+      "label": "A woman in a red traditional outfit holds a sword, poised in a dynamic stance, with an intense expression, set against a dark background.",
+      "file": "flux_12.png"
+    },
+    {
+      "label": "A man with a beard stands confidently beside large green and black train wheels, wearing a beige coat over a navy puffer jacket and gray trousers, with his hands in his pockets.",
+      "file": "flux_13.png"
+    },
+    {
+      "label": "Two golden-brown roasted chickens sit in a flavorful sauce with green olives, accompanied by a serving of colorful grain salad with nuts on the side and a small bowl of pale yellow sauce.",
+      "file": "flux_14.png"
+    },
+    {
+      "label": "A starry night sky filled with countless stars and the Milky Way stretches across the scene, highlighting rugged, eroded rock formations that rise dramatically from the ground. The landscape features unique, tabletop-like rock structures under soft illumination.",
+      "file": "flux_15.png"
+    },
+    {
+      "label": "A majestic waterfall cascades into a lush, green valley, surrounded by dense forest and towering mountains, with a mist hovering over the lower areas and a volcano rising in the background under a soft sky.",
+      "file": "flux_16.png"
+    }
+  ]
+}

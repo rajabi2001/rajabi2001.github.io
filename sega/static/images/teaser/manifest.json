@@ -1,0 +1,26 @@
+{
+  "columnLabels": ["SEGA–Flux 4096×"],
+  "blocks": [
+    {
+      "heading": "Zero-shot samples (same folder as the baseline slider gallery)",
+      "rows": [
+        {
+          "caption": "Sample 1",
+          "images": ["./static/images/slider/flux4096/flux_01.png"]
+        },
+        {
+          "caption": "Sample 2",
+          "images": ["./static/images/slider/flux4096/flux_02.png"]
+        },
+        {
+          "caption": "Sample 3",
+          "images": ["./static/images/slider/flux4096/flux_03.png"]
+        },
+        {
+          "caption": "Sample 4",
+          "images": ["./static/images/slider/flux4096/flux_04.png"]
+        }
+      ]
+    }
+  ]
+}

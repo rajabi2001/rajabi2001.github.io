@@ -1,0 +1,8 @@
+{
+  "slides": [
+    { "label": "YaRN", "file": "flux-yarn.png" },
+    { "label": "DyPE", "file": "dype.png" },
+    { "label": "UltraImage", "file": "ultraimage.png" },
+    { "label": "SEGA", "file": "sega.png" }
+  ]
+}

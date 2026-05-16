@@ -1,0 +1,8 @@
+{
+  "slides": [
+    { "label": "ScaleDiff", "file": "scalediff.png" },
+    { "label": "I-Max", "file": "imax.jpg" },
+    { "label": "HiFlow", "file": "hiflow.png" },
+    { "label": "SEGA", "file": "sega.png" }
+  ]
+}
