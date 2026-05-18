@@ -1008,6 +1008,18 @@ body {
   letter-spacing: 0.02em;
 }
 
+.clicker-backend-line {
+  max-width: 46rem;
+  margin: -0.35rem auto 0.65rem;
+  padding: 0 0.5rem;
+  text-align: center;
+  letter-spacing: 0.01em;
+}
+
+.clicker-backend-line[hidden] {
+  display: none;
+}
+
 /* Multi-image comparison slider (manifest-driven) */
 .compare-slider {
   margin-top: 0.75rem;

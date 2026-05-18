@@ -1,5 +1,6 @@
 {
   "note": "",
+  "backend": "4096×4096 · SEGA (Flux)",
   "slides": [
     {
       "label": "A mysterious woman stands confidently in elaborate, dark armor adorned with intricate designs, holding a staff, against a backdrop of smoke and an ominous red sky, with shadowy, gothic buildings in the distance.",
@@ -28,10 +29,6 @@
     {
       "label": "A solitary tree stands in calm water against a backdrop of mountains, illuminated by a soft, golden sunset sky.",
       "file": "flux_07.png"
-    },
-    {
-      "label": "A chaotic battle scene featuring various fantasy characters, including an armored orc, ethereal figures, a menacing dragon-like creature, and dark sorceresses, all engaged in intense combat amongst a backdrop of ruins and ominous lighting.",
-      "file": "flux_08.png"
     },
     {
       "label": "A vibrant village with colorful houses and a picturesque castle is set against a backdrop of mountains and a clear blue sky, with bustling crowds walking along a stone bridge and a serene lake reflecting the scenery.",

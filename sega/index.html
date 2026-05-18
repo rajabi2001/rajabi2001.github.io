@@ -168,7 +168,7 @@
           <p class="sega-kicker">Method Overview</p>
           <h2 class="title is-3">How SEGA Works</h2>
           <p class="sega-subtitle">
-            SEGA turns fixed attention scaling into content-aware scaling by looking at the latent's frequency content
+            SEGA turns fixed attention scaling into dynamic, content-aware scaling by looking at the latent's frequency content
             during denoising.
           </p>
         </div>
@@ -180,6 +180,23 @@
             RoPE dimensions, and adaptively rescales attention so the model preserves both global structure and fine
             detail at high resolution.
           </p>
+        </div>
+
+        <div class="sega-equation-card">
+          <div>
+            <h3>The core idea</h3>
+            <p>
+              SEGA modifies RoPE by multiplying each rotary dimension by a dynamic scale. The scale changes across
+              dimensions, axes, samples, and denoising steps.
+            </p>
+          </div>
+
+          <div class="sega-equation">
+            <span>
+              <em>f</em><sub>SEGA</sub>(<em>x</em>, <em>n</em>, <em>d</em>) = <em>m</em><sub>d</sub> ·
+              <em>f</em><sub>RoPE</sub>(<em>x</em>, <em>n</em>, <em>d</em>)
+            </span>
+          </div>
         </div>
 
         <div class="sega-method-grid">
@@ -205,8 +222,7 @@
             <div class="sega-step-number">3</div>
             <h3>Match energy to RoPE dimensions</h3>
             <p>
-              RoPE dimensions correspond to different spatial wavelengths. SEGA links each dimension to its matching
-              frequency band instead of treating all dimensions equally.
+              Individual RoPE dimensions encode specific spatial frequencies. SEGA maps the spectral energy directly onto the relevant positional embeddings instead of treating all dimensions equally.
             </p>
           </div>
 
@@ -234,23 +250,6 @@
           <div class="sega-pipeline-node">
             <span class="sega-node-icon">↕</span>
             <strong>Per-dimension scaling</strong>
-          </div>
-        </div>
-
-        <div class="sega-equation-card">
-          <div>
-            <h3>The core idea</h3>
-            <p>
-              SEGA modifies RoPE by multiplying each rotary dimension by a dynamic scale. The scale changes across
-              dimensions, axes, samples, and denoising steps.
-            </p>
-          </div>
-
-          <div class="sega-equation">
-            <span>
-              <em>f</em><sub>SEGA</sub>(<em>x</em>, <em>n</em>, <em>d</em>) = <em>m</em><sub>d</sub> ·
-              <em>f</em><sub>RoPE</sub>(<em>x</em>, <em>n</em>, <em>d</em>)
-            </span>
           </div>
         </div>
 
@@ -292,13 +291,6 @@
               aria-live="polite"
             >
               <p class="subtitle is-6 compare-slider-caption"></p>
-            </div>
-
-            <div class="content has-text-centered">
-              <p>
-                Each sample is a <strong>4096×4096</strong> image generated with <strong>SEGA</strong> using
-                <strong>Flux</strong>.
-              </p>
             </div>
           </div>
         </div>

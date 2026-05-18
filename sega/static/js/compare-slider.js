@@ -116,6 +116,11 @@
     promptHero.setAttribute("aria-live", "polite");
     promptHero.setAttribute("aria-atomic", "true");
 
+    const backendLine = document.createElement("p");
+    backendLine.className = "clicker-backend-line is-size-7 has-text-grey";
+    backendLine.setAttribute("aria-live", "polite");
+    backendLine.setAttribute("aria-atomic", "true");
+
     const indexLine = document.createElement("p");
     indexLine.className = "clicker-index is-size-7 has-text-grey";
     indexLine.style.textAlign = "center";
@@ -147,6 +152,10 @@
       mainImg.src = slideUrl(baseUrl, s.file);
       mainImg.alt = displayLabel || "Sample";
       setPromptHero(s.label || "");
+      var backendText = (s.backend || manifest.backend || "").trim();
+      backendLine.textContent = backendText;
+      backendLine.hidden = !backendText;
+      backendLine.setAttribute("aria-hidden", backendText ? "false" : "true");
       indexLine.textContent = String(idx + 1) + " / " + String(n);
       prev.disabled = idx <= 0;
       next.disabled = idx >= n - 1;
@@ -192,6 +201,7 @@
     });
 
     stage.appendChild(promptHero);
+    stage.appendChild(backendLine);
     stage.appendChild(frame);
     stage.appendChild(pills);
     stage.appendChild(indexLine);
