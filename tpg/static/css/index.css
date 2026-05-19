@@ -189,7 +189,7 @@ body {
 
 .tpg-equation span {
   font-family: ui-monospace, "Cascadia Code", "SF Mono", Menlo, Monaco, Consolas, monospace;
-  font-size: clamp(1rem, 1.4vw, 1.25rem);
+  font-size: clamp(0.82rem, 1.1vw, 1rem);
   font-weight: 500;
   color: #1e293b;
   line-height: 1.6;
