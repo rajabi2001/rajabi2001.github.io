@@ -1,0 +1,399 @@
+body {
+  font-family: 'Noto Sans', sans-serif;
+}
+
+/* ===== Publication header ===== */
+.publication-title {
+  font-family: 'Google Sans', sans-serif;
+}
+
+.publication-authors {
+  font-family: 'Google Sans', sans-serif;
+}
+
+.publication-authors a {
+  color: hsl(263, 70%, 55%) !important;
+}
+
+.publication-authors a:hover {
+  text-decoration: underline;
+}
+
+.author-block {
+  display: inline-block;
+  margin-left: 1rem;
+}
+
+.publication-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.link-block a,
+.link-block .button {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+}
+
+.button {
+  white-space: normal;
+  height: auto;
+  padding: 0.5rem 1rem;
+  border-width: 1px;
+}
+
+.button:focus,
+.button:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* ===== Venue badge ===== */
+.tpg-venue-badge {
+  display: inline-block;
+  padding: 0.3rem 1.1rem;
+  background: rgba(124, 58, 237, 0.1);
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #6d28d9;
+  letter-spacing: 0.06em;
+  font-family: 'Google Sans', sans-serif;
+}
+
+/* ===== Teaser ===== */
+.tpg-teaser-wrap {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+}
+
+.tpg-teaser-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+}
+
+/* ===== Gray section backgrounds ===== */
+.fullwidth-gray-bg {
+  background-color: #f5f5f5;
+}
+
+/* ===== Method section ===== */
+.tpg-method-section {
+  background-color: #f5f5f5;
+}
+
+.tpg-method-header {
+  max-width: 42rem;
+  margin: 0 auto 2rem;
+}
+
+.tpg-kicker {
+  font-family: "Castoro", "Noto Sans", Georgia, serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #7c3aed;
+  margin-bottom: 0.5rem !important;
+}
+
+.tpg-method-header .title {
+  margin-bottom: 1rem !important;
+}
+
+.tpg-subtitle {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: #4a4a4a;
+  margin: 0 auto !important;
+}
+
+/* ===== TL;DR card ===== */
+.tpg-tldr-card {
+  max-width: 48rem;
+  margin: 0 auto 2.5rem;
+  padding: 1.25rem 1.5rem;
+  background: #fff;
+  border: 1px solid rgba(124, 58, 237, 0.18);
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.tpg-tldr-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #7c3aed;
+  margin-bottom: 0.5rem;
+}
+
+.tpg-tldr-card p {
+  margin: 0 !important;
+  line-height: 1.7;
+  color: #363636;
+  text-align: left;
+}
+
+/* ===== Equation card ===== */
+.tpg-equation-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1.5rem 2rem;
+  align-items: center;
+  max-width: 52rem;
+  margin: 0 auto 2.5rem;
+  padding: 1.75rem 2rem;
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);
+}
+
+.tpg-equation-card h3 {
+  font-family: "Castoro", "Noto Sans", Georgia, serif;
+  font-size: 1.12rem;
+  font-weight: 600;
+  margin-bottom: 0.65rem !important;
+  color: #1a1a1a;
+}
+
+.tpg-equation-card > div:first-child p {
+  margin: 0 !important;
+  line-height: 1.68;
+  color: #4a4a4a;
+  text-align: left;
+}
+
+.tpg-equation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+  border: 1px solid rgba(124, 58, 237, 0.15);
+  border-radius: 10px;
+  border-left: 4px solid #7c3aed;
+}
+
+.tpg-equation span {
+  font-family: ui-monospace, "Cascadia Code", "SF Mono", Menlo, Monaco, Consolas, monospace;
+  font-size: clamp(1rem, 1.4vw, 1.25rem);
+  font-weight: 500;
+  color: #1e293b;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.tpg-equation em {
+  font-style: italic;
+  font-weight: 600;
+}
+
+.tpg-equation sub,
+.tpg-equation sup {
+  font-size: 0.68em;
+  position: relative;
+}
+
+.tpg-equation sup {
+  top: -0.5em;
+}
+
+.tpg-equation sub {
+  top: 0.15em;
+}
+
+/* ===== Method steps grid ===== */
+.tpg-method-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+  max-width: 52rem;
+  margin: 0 auto 2.5rem;
+}
+
+.tpg-method-card {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
+  padding: 1.35rem 1.5rem;
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.035);
+}
+
+.tpg-step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: #7c3aed;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 0.85rem;
+}
+
+.tpg-method-card h3 {
+  font-family: "Castoro", "Noto Sans", Georgia, serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.6rem !important;
+  color: #1a1a1a;
+}
+
+.tpg-method-card p {
+  margin: 0 !important;
+  font-size: 0.98rem;
+  line-height: 1.68;
+  color: #4a4a4a;
+  text-align: left;
+}
+
+/* ===== Benefits row ===== */
+.tpg-benefits-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 2rem;
+  max-width: 52rem;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.tpg-benefits-row > div:first-child p {
+  margin: 0 !important;
+  line-height: 1.68;
+  color: #4a4a4a;
+  text-align: left;
+}
+
+.tpg-benefits-row > div:first-child h3 {
+  font-family: "Castoro", "Noto Sans", Georgia, serif;
+  font-size: 1.12rem;
+  font-weight: 600;
+  margin-bottom: 0.65rem !important;
+  color: #1a1a1a;
+}
+
+.tpg-benefit-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-start;
+}
+
+.tpg-benefit-list span {
+  display: inline-block;
+  padding: 0.45rem 0.85rem;
+  background: rgba(124, 58, 237, 0.09);
+  border: 1px solid rgba(124, 58, 237, 0.22);
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #6d28d9;
+}
+
+/* ===== Results section ===== */
+.tpg-result-heading {
+  font-family: "Castoro", "Noto Sans", Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 0.35rem 0 !important;
+  text-align: center;
+}
+
+/* ===== Figure cards ===== */
+.tpg-figure-card {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  margin: 0 auto;
+  margin-bottom: 5rem;
+}
+
+.tpg-figure-card:last-child {
+  margin-bottom: 0;
+}
+
+.tpg-figure-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ===== Citation ===== */
+.tpg-citation-pre {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.25rem;
+  overflow-x: auto;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+/* ===== Footer ===== */
+.footer .icon-link {
+  font-size: 25px;
+  color: #000;
+}
+
+/* ===== Wide container override (desktop) ===== */
+@media screen and (min-width: 769px) {
+  section.section .container.is-max-desktop.container--site-wide {
+    max-width: min(1280px, 96vw) !important;
+    width: 100% !important;
+  }
+
+  .hero-teaser-figure--lead {
+    max-width: min(1280px, 96vw) !important;
+  }
+
+  .tpg-figure-card {
+    max-width: 100%;
+  }
+}
+
+/* ===== Mobile ===== */
+@media screen and (max-width: 768px) {
+  .tpg-method-grid,
+  .tpg-equation-card,
+  .tpg-benefits-row {
+    grid-template-columns: 1fr;
+  }
+
+  .tpg-equation-card {
+    padding: 1.35rem 1.25rem;
+  }
+
+  .tpg-benefit-list {
+    justify-content: center;
+  }
+
+  .publication-title {
+    font-size: 1.5rem !important;
+  }
+
+  .author-block {
+    margin-left: 0.4rem;
+  }
+
+  .section {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+}

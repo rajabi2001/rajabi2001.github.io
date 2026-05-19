@@ -1,14 +1,411 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Token Perturbation Guidance (TPG)</title>
-  <link rel="stylesheet" href="../assets/academic-base.css">
-</head>
-<body>
-  <p><strong>Token Perturbation Guidance (TPG)</strong></p>
-  <p>This section is a placeholder for the TPG project page. Add your figures, paper links, and code here in this directory (<code>tpg/</code>) so it stays separate from other subsites.</p>
-  <p>Paper: <a href="https://arxiv.org/abs/2506.10036">Token Perturbation Guidance for Diffusion Models</a> (NeurIPS 2025).</p>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="description"
+      content="Token Perturbation Guidance (TPG) — training-free, condition-agnostic guidance for diffusion models. NeurIPS 2025."
+    />
+    <meta name="keywords" content="diffusion models, guidance, token perturbation, training-free, classifier-free guidance, NeurIPS 2025" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Token Perturbation Guidance (TPG)</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+    <link rel="stylesheet" href="./static/css/fontawesome.all.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css"
+    />
+    <link rel="stylesheet" href="./static/css/index.css" />
+
+    <script defer src="./static/js/fontawesome.all.min.js"></script>
+  </head>
+  <body>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container is-full-width">
+          <div class="columns is-centered">
+            <div class="column has-text-centered">
+
+              <!-- Venue badge -->
+              <div style="margin-bottom: 1rem">
+                <span class="tpg-venue-badge">NeurIPS 2025</span>
+              </div>
+
+              <!-- Title -->
+              <h1 class="title is-1 publication-title">
+                <span style="font-weight: 900">Token Perturbation Guidance</span>
+                <br />
+                <span style="font-weight: 400">for Diffusion Models</span>
+              </h1>
+
+              <!-- Authors -->
+              <div class="is-size-5 publication-authors">
+                <span class="author-block">
+                  <a href="https://www.cs.toronto.edu/~rajabi/" target="_blank" rel="noopener noreferrer"
+                    >Javad Rajabi</a
+                  ><sup>1,2</sup>
+                </span>
+                <span class="author-block">
+                  <a href="https://soroushmehraban.github.io/" target="_blank" rel="noopener noreferrer"
+                    >Soroush Mehraban</a
+                  ><sup>1,2,3</sup>
+                </span>
+                <span class="author-block">
+                  <a href="https://msadat97.github.io/" target="_blank" rel="noopener noreferrer"
+                    >Seyedmorteza Sadat</a
+                  ><sup>4</sup>
+                </span>
+                <span class="author-block">
+                  <a href="https://www.cs.toronto.edu/~taati/" target="_blank" rel="noopener noreferrer"
+                    >Babak Taati</a
+                  ><sup>1,2,3</sup>
+                </span>
+              </div>
+
+              <!-- Affiliations -->
+              <div class="is-size-6 publication-authors" style="margin-top: 0.5rem; color: #555">
+                <span class="author-block"><sup>1</sup>University of Toronto</span>
+                <span class="author-block"><sup>2</sup>Vector Institute</span>
+                <span class="author-block"><sup>3</sup>KITE Research Institute</span>
+                <span class="author-block"><sup>4</sup>ETH Zürich</span>
+              </div>
+
+              <!-- Links -->
+              <div class="has-text-centered" style="margin-top: 1.1rem">
+                <div class="publication-links">
+                  <span class="link-block">
+                    <a
+                      href="./static/files/18856_Token_Perturbation_Guida.pdf"
+                      class="external-link button is-normal is-rounded is-dark"
+                      target="_blank"
+                      rel="noopener"
+                    >
+                      <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                      <span>Paper</span>
+                    </a>
+                  </span>
+                  <span class="link-block">
+                    <a
+                      href="https://arxiv.org/abs/2506.10036"
+                      class="external-link button is-normal is-rounded is-dark"
+                      target="_blank"
+                      rel="noopener"
+                    >
+                      <span class="icon"><i class="ai ai-arxiv"></i></span>
+                      <span>arXiv</span>
+                    </a>
+                  </span>
+                  <span class="link-block">
+                    <a
+                      href="https://github.com/TaatiTeam/Token-Perturbation-Guidance"
+                      class="external-link button is-normal is-rounded is-dark"
+                      target="_blank"
+                      rel="noopener"
+                    >
+                      <span class="icon"><i class="fab fa-github"></i></span>
+                      <span>Code</span>
+                    </a>
+                  </span>
+                </div>
+              </div>
+
+              <!-- Teaser figure -->
+              <div class="hero-teaser-figure hero-teaser-figure--lead content" style="margin: 1.5rem auto 0 auto">
+                <div class="tpg-teaser-wrap">
+                  <img
+                    src="./images/generated_imgs_timesteps.png"
+                    alt="TPG denoising progression, generated images across timesteps"
+                    class="tpg-teaser-img"
+                    decoding="async"
+                    fetchpriority="high"
+                  />
+                </div>
+                <div class="has-text-justified" style="margin-top: 0.9rem">
+                  <p>
+                    <strong>TPG</strong> applies norm-preserving perturbation matrices to intermediate token
+                    representations in diffusion networks, constructing CFG-like guidance signals at inference
+                    time with no training, no architectural changes, applicable to both conditional and unconditional
+                    generation. On SDXL and SD 2.1, TPG achieves nearly 2&times; FID improvement for unconditional
+                    generation while closely matching classifier-free guidance in prompt alignment.
+                  </p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ABSTRACT ===== -->
+    <section class="section" style="margin-top: -3rem">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-full-width">
+            <h2 class="title is-3">Abstract</h2>
+            <div class="content has-text-justified">
+              <p>
+                Classifier-free guidance (CFG) has become an essential component of modern diffusion models to
+                enhance both generation quality and alignment with input conditions. However, CFG requires specific
+                training procedures and is limited to conditional generation. To address these limitations, we
+                propose <strong>Token Perturbation Guidance (TPG)</strong>, a novel method that applies
+                perturbation matrices directly to intermediate token representations within the diffusion network.
+                TPG employs a norm-preserving shuffling operation to provide effective and stable guidance signals
+                that improve generation quality without architectural changes. As a result, TPG is training-free
+                and agnostic to input conditions, making it readily applicable to both conditional and
+                unconditional generation. We further analyze the guidance term provided by TPG and show that its
+                effect on sampling more closely resembles CFG compared to existing training-free guidance
+                techniques. Extensive experiments on SDXL and Stable Diffusion 2.1 show that TPG achieves nearly
+                a 2&times; improvement in FID for unconditional generation over the SDXL baseline, while closely
+                matching CFG in prompt alignment. These results establish TPG as a general, condition-agnostic
+                guidance method that brings CFG-like benefits to a broader class of diffusion models.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== METHOD OVERVIEW ===== -->
+    <section class="section tpg-method-section" id="method">
+      <div class="container is-max-desktop container--site-wide">
+
+        <div class="tpg-method-header has-text-centered">
+          <p class="tpg-kicker">Method Overview</p>
+          <h2 class="title is-3">How TPG Works</h2>
+          <p class="tpg-subtitle">
+            TPG constructs guidance by running two forward passes, one through the original network and one
+            through a version with perturbed token representations, and combining their outputs to amplify
+            generation quality at inference time.
+          </p>
+        </div>
+
+        <!-- TL;DR -->
+        <div class="tpg-tldr-card">
+          <div class="tpg-tldr-label">TL;DR</div>
+          <p>
+            At each denoising step, TPG shuffles intermediate token representations using a norm-preserving
+            permutation matrix <strong>S</strong>, runs two forward passes (positive and negative), and
+            extrapolates the score by amplifying the difference, yielding CFG-like guidance without
+            any conditional training or architecture modifications.
+          </p>
+        </div>
+
+        <!-- Equation card -->
+        <div class="tpg-equation-card">
+          <div>
+            <h3>The guided score estimate</h3>
+            <p>
+              TPG mirrors the structure of classifier-free guidance, but replaces the unconditional branch with
+              a perturbation branch. The positive score
+              <em>s</em><sup>+</sup><sub>θ</sub> comes from the unperturbed network; the negative score
+              <em>s</em><sup>−</sup><sub>θ</sub> comes from the shuffled-token pass. The guidance scale γ
+              controls the strength of the effect.
+            </p>
+          </div>
+          <div class="tpg-equation">
+            <span>
+              <em>s̃</em><sub>θ</sub> &nbsp;=&nbsp;
+              <em>s</em><sup>+</sup><sub>θ</sub> &nbsp;+&nbsp;
+              γ (&thinsp;<em>s</em><sup>+</sup><sub>θ</sub> &minus; <em>s</em><sup>&minus;</sup><sub>θ</sub>&thinsp;)
+            </span>
+          </div>
+        </div>
+
+        <!-- Step cards -->
+        <div class="tpg-method-grid">
+          <div class="tpg-method-card">
+            <div class="tpg-step-number">1</div>
+            <h3>Positive forward pass</h3>
+            <p>
+              Run the diffusion network normally on the noisy input <em>x<sub>t</sub></em> to obtain
+              <em>s</em><sup>+</sup><sub>θ</sub>, the standard clean score prediction. No changes
+              are made to the network.
+            </p>
+          </div>
+          <div class="tpg-method-card">
+            <div class="tpg-step-number">2</div>
+            <h3>Norm-preserving shuffling</h3>
+            <p>
+              A shuffling matrix <strong>S</strong> is applied to intermediate token representations inside
+              the network. The operation is linear and norm-preserving: it disrupts the spatial structure of
+              tokens while leaving their magnitudes intact.
+            </p>
+          </div>
+          <div class="tpg-method-card">
+            <div class="tpg-step-number">3</div>
+            <h3>Negative forward pass</h3>
+            <p>
+              The same network, now seeing shuffled (incoherent) representations, produces
+              <em>s</em><sup>−</sup><sub>θ</sub>, a degraded score corresponding to a spatially
+              scrambled latent. This acts as the "unconditional" branch in the guidance formula.
+            </p>
+          </div>
+          <div class="tpg-method-card">
+            <div class="tpg-step-number">4</div>
+            <h3>Compute guided score</h3>
+            <p>
+              The final estimate extrapolates beyond the positive score, pushing the sample away from
+              the incoherent negative. The guidance scale γ controls the trade-off between diversity
+              and quality, analogous to CFG's guidance weight.
+            </p>
+          </div>
+        </div>
+
+        <!-- Benefits -->
+        <div class="tpg-benefits-row">
+          <div>
+            <h3>Why it works</h3>
+            <p>
+              Shuffling destroys the local spatial coherence that diffusion networks rely on to produce
+              structured outputs, while preserving global token statistics. This creates an effective
+              "bad direction" that the model can be guided away from, mimicking the role of the unconditional
+              branch in CFG. Because the operation requires no conditioning signal, TPG extends CFG-like
+              guidance to settings where conditional training is unavailable or impractical.
+            </p>
+          </div>
+          <div class="tpg-benefit-list">
+            <span>Training-free</span>
+            <span>No new weights</span>
+            <span>Condition-agnostic</span>
+            <span>No architecture changes</span>
+            <span>Works unconditionally</span>
+            <span>Plug-and-play</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== RESULTS ===== -->
+    <section class="section" id="results">
+      <div class="container is-max-desktop container--site-wide">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-full-width">
+
+            <h2 class="title is-3">Results</h2>
+
+            <!-- Conditional generation -->
+            <p class="tpg-result-heading">Conditional Generation</p>
+            <p class="is-size-6 has-text-grey" style="margin: 0.2rem 0 1rem">
+              Text-to-image generation on SDXL with TPG, competitive with CFG in prompt alignment
+            </p>
+            <div class="tpg-figure-card">
+              <img
+                src="./images/cond_generation_v2.png"
+                alt="Conditional generation results on SDXL"
+                class="tpg-figure-img"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+
+            <!-- Unconditional generation -->
+            <p class="tpg-result-heading" style="margin-top: 4rem">Unconditional Generation</p>
+            <p class="is-size-6 has-text-grey" style="margin: 0.2rem 0 1rem">
+              Unconditional image generation on SDXL, nearly 2&times; FID improvement over the baseline
+            </p>
+            <div class="tpg-figure-card">
+              <img
+                src="./images/uncond_generation_v3.png"
+                alt="Unconditional generation results on SDXL"
+                class="tpg-figure-img"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BEHAVIORAL ANALYSIS ===== -->
+    <section class="section fullwidth-gray-bg" id="analysis">
+      <div class="container is-max-desktop container--site-wide">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-full-width">
+
+            <h2 class="title is-3">Behavioral Analysis</h2>
+            <p class="subtitle is-6 has-text-grey" style="margin-top: -0.5rem">
+              TPG's guidance term closely mirrors CFG in frequency content and alignment with the ground-truth noise estimate
+            </p>
+
+            <!-- Frequency & alignment -->
+            <p class="tpg-result-heading" style="margin-top: 1.5rem">Frequency &amp; Cosine Similarity Analysis</p>
+            <p class="is-size-6 has-text-grey" style="margin: 0.2rem 0 1rem">
+              Cosine similarity of TPG vs. CFG guidance terms across denoising steps (conditional setting)
+            </p>
+            <div class="tpg-figure-card">
+              <img
+                src="./images/cosine_conditional.png"
+                alt="Cosine similarity of TPG vs. CFG guidance terms across denoising steps"
+                class="tpg-figure-img"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+
+            <!-- SD face results -->
+            <p class="tpg-result-heading" style="margin-top: 4rem">Face Generation on Stable Diffusion 2.1</p>
+            <p class="is-size-6 has-text-grey" style="margin: 0.2rem 0 1rem">
+              TPG applied to SD 2.1 for unconditional face generation
+            </p>
+            <div class="tpg-figure-card">
+              <img
+                src="./images/sd_face_results.png"
+                alt="Face generation results on Stable Diffusion 2.1"
+                class="tpg-figure-img"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CITATION ===== -->
+    <section class="section fullwidth-gray-bg" id="citation">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column is-full-width">
+            <h2 class="title is-3 has-text-centered">Citation</h2>
+            <pre class="tpg-citation-pre"><code>@inproceedings{NEURIPS2025_60d16678,
+  author    = {Rajabi, Javad and Mehraban, Soroush and Sadat, Seyedmorteza and Taati, Babak},
+  booktitle = {Advances in Neural Information Processing Systems},
+  pages     = {67153--67175},
+  publisher = {Curran Associates, Inc.},
+  title     = {Token Perturbation Guidance for Diffusion Models},
+  volume    = {38},
+  year      = {2025}
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+      <div class="container">
+        <div class="content has-text-centered">
+          <p>
+            This website is licensed under a
+            <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"
+              >Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            Website template adapted from
+            <a href="https://nerfies.github.io" target="_blank" rel="noopener">Nerfies</a>.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+  </body>
 </html>
