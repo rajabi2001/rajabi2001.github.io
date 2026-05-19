@@ -128,6 +128,7 @@
 
     const pillBtns = [];
     var currentIdx = 0;
+    var initialized = false;
 
     function setPromptHero(label) {
       while (promptHero.firstChild) {
@@ -164,7 +165,7 @@
         btn.setAttribute("aria-selected", j === idx ? "true" : "false");
       });
       var activePill = pillBtns[idx];
-      if (activePill && typeof activePill.scrollIntoView === "function") {
+      if (initialized && activePill && typeof activePill.scrollIntoView === "function") {
         activePill.scrollIntoView({ inline: "nearest", block: "nearest", behavior: "smooth" });
       }
     }
@@ -208,6 +209,7 @@
     root.appendChild(stage);
 
     setIndex(0);
+    initialized = true;
   }
 
   function init(root) {
