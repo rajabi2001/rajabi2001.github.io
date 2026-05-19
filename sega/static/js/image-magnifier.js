@@ -33,6 +33,8 @@
     var parent = img.parentNode;
     if (!parent) return;
 
+    var zoom = img.closest(".compare-slider") ? 1.3 : img.closest(".hero-teaser-figure") ? 2.5 : ZOOM;
+
     var wrap = document.createElement("span");
     wrap.className = "img-magnifier-wrap";
 
@@ -74,8 +76,8 @@
       var nh = img.naturalHeight;
       var rx = x / rect.width;
       var ry = y / rect.height;
-      var bgW = nw * ZOOM;
-      var bgH = nh * ZOOM;
+      var bgW = nw * zoom;
+      var bgH = nh * zoom;
       var url = img.currentSrc || img.src || "";
       if (url && lensImg.src !== url) {
         lensImg.src = url;
