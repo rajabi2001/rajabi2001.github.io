@@ -1,0 +1,374 @@
+/* Light / dark theme tokens and overrides for the SEGA project page */
+
+:root {
+  color-scheme: light;
+  --sega-bg: #ffffff;
+  --sega-bg-muted: #f5f5f5;
+  --sega-surface: #ffffff;
+  --sega-surface-soft: rgba(255, 255, 255, 0.7);
+  --sega-text: #363636;
+  --sega-text-strong: #1a1a1a;
+  --sega-text-muted: #4a4a4a;
+  --sega-text-subtle: #555555;
+  --sega-text-faint: #7a7a7a;
+  --sega-border: rgba(0, 0, 0, 0.06);
+  --sega-border-accent: rgba(50, 115, 220, 0.18);
+  --sega-border-dashed: rgba(50, 115, 220, 0.28);
+  --sega-shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.04);
+  --sega-shadow-md: 0 2px 14px rgba(0, 0, 0, 0.035);
+  --sega-shadow-lg: 0 2px 16px rgba(0, 0, 0, 0.04);
+  --sega-shadow-hero: 0 4px 24px rgba(0, 0, 0, 0.12);
+  --sega-accent: #3273dc;
+  --sega-accent-strong: #2160c4;
+  --sega-accent-soft: rgba(50, 115, 220, 0.09);
+  --sega-accent-border: rgba(50, 115, 220, 0.22);
+  --sega-equation-bg: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  --sega-equation-text: #1e293b;
+  --sega-media-bg: #f2f2f2;
+  --sega-viewport-bg: #111111;
+  --sega-pill-bg: #fafafa;
+  --sega-pill-border: #dcdcdc;
+  --sega-pill-hover: #efefef;
+  --sega-pill-active-bg: #222222;
+  --sega-pill-active-text: #ffffff;
+  --sega-arrow-bg: #ffffff;
+  --sega-arrow-text: #1a1a1a;
+  --sega-arrow-border: #e8e8e8;
+  --sega-footer-icon: #000000;
+  --sega-link: hsl(204, 86%, 53%);
+  --sega-toggle-bg: rgba(255, 255, 255, 0.92);
+  --sega-toggle-border: rgba(0, 0, 0, 0.1);
+  --sega-toggle-text: #363636;
+  --sega-figure-frame: transparent;
+  --sega-figure-outline: transparent;
+  --sega-image-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  --sega-citation-bg: #ffffff;
+  --sega-citation-text: #363636;
+  --sega-interpolation-bg: #f5f5f5;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --sega-bg: #0f1014;
+  --sega-bg-muted: #17181f;
+  --sega-surface: #1c1d26;
+  --sega-surface-soft: rgba(28, 29, 38, 0.85);
+  --sega-text: #d4d4dc;
+  --sega-text-strong: #f2f2f7;
+  --sega-text-muted: #b8b8c4;
+  --sega-text-subtle: #a8a8b6;
+  --sega-text-faint: #8a8a98;
+  --sega-border: rgba(255, 255, 255, 0.08);
+  --sega-border-accent: rgba(91, 156, 255, 0.28);
+  --sega-border-dashed: rgba(91, 156, 255, 0.35);
+  --sega-shadow-sm: 0 2px 16px rgba(0, 0, 0, 0.35);
+  --sega-shadow-md: 0 2px 18px rgba(0, 0, 0, 0.4);
+  --sega-shadow-lg: 0 4px 24px rgba(0, 0, 0, 0.45);
+  --sega-shadow-hero: 0 8px 40px rgba(0, 0, 0, 0.55);
+  --sega-accent: #5b9cff;
+  --sega-accent-strong: #8bb8ff;
+  --sega-accent-soft: rgba(91, 156, 255, 0.14);
+  --sega-accent-border: rgba(91, 156, 255, 0.35);
+  --sega-equation-bg: linear-gradient(135deg, #22232e 0%, #1a1b24 100%);
+  --sega-equation-text: #e8edf5;
+  --sega-media-bg: #252630;
+  --sega-viewport-bg: #0a0a0c;
+  --sega-pill-bg: #252630;
+  --sega-pill-border: #3a3b48;
+  --sega-pill-hover: #2f303c;
+  --sega-pill-active-bg: #5b9cff;
+  --sega-pill-active-text: #0f1014;
+  --sega-arrow-bg: #252630;
+  --sega-arrow-text: #f2f2f7;
+  --sega-arrow-border: #3a3b48;
+  --sega-footer-icon: #d4d4dc;
+  --sega-link: #7eb6ff;
+  --sega-toggle-bg: rgba(28, 29, 38, 0.94);
+  --sega-toggle-border: rgba(255, 255, 255, 0.12);
+  --sega-toggle-text: #e8e8ef;
+  --sega-figure-frame: #1c1d26;
+  --sega-figure-outline: rgba(255, 255, 255, 0.06);
+  --sega-image-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
+  --sega-citation-bg: #1c1d26;
+  --sega-citation-text: #d8d8e4;
+  --sega-interpolation-bg: #17181f;
+}
+
+body {
+  background-color: var(--sega-bg);
+  color: var(--sega-text);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.hero,
+.section,
+.footer {
+  background-color: transparent;
+}
+
+.footer {
+  background-color: var(--sega-bg-muted);
+}
+
+.footer .content,
+.footer .content p {
+  color: var(--sega-text-muted);
+}
+
+.footer .icon-link {
+  color: var(--sega-footer-icon);
+}
+
+.title,
+.content,
+.publication-title,
+.publication-authors {
+  color: inherit;
+}
+
+.content p,
+.section .content {
+  color: var(--sega-text);
+}
+
+.has-text-grey,
+.baseline-backend-line,
+.clicker-backend-line {
+  color: var(--sega-text-faint) !important;
+}
+
+.publication-authors a {
+  color: var(--sega-link) !important;
+}
+
+.fullwidth-gray-bg,
+.sega-method-section,
+.interpolation-panel {
+  background-color: var(--sega-bg-muted) !important;
+}
+
+.sega-subtitle,
+.sega-tldr-card p,
+.sega-method-card p,
+.sega-equation-card > div:first-child p,
+.sega-benefits-row > div:first-child p {
+  color: var(--sega-text-muted);
+}
+
+.sega-kicker,
+.sega-tldr-label {
+  color: var(--sega-accent);
+}
+
+.sega-method-card h3,
+.sega-equation-card h3,
+.sega-benefits-row > div:first-child h3,
+.baseline-prompt-line {
+  color: var(--sega-text-strong);
+}
+
+.baseline-prompt-line {
+  color: var(--sega-text-strong);
+}
+
+.sega-tldr-card,
+.sega-method-card,
+.sega-equation-card {
+  background: var(--sega-surface);
+  border-color: var(--sega-border);
+  box-shadow: var(--sega-shadow-sm);
+}
+
+.sega-tldr-card {
+  border-color: var(--sega-border-accent);
+}
+
+.sega-visual-pipeline {
+  background: var(--sega-surface-soft);
+  border-color: var(--sega-border-dashed);
+}
+
+.sega-pipeline-node strong {
+  color: var(--sega-text-strong);
+}
+
+.sega-node-icon,
+.sega-pipeline-arrow {
+  color: var(--sega-accent);
+}
+
+.sega-equation {
+  background: var(--sega-equation-bg);
+  border-color: var(--sega-border-accent);
+  border-left-color: var(--sega-accent);
+}
+
+.sega-equation span {
+  color: var(--sega-equation-text);
+}
+
+.sega-benefit-list span {
+  background: var(--sega-accent-soft);
+  border-color: var(--sega-accent-border);
+  color: var(--sega-accent-strong);
+}
+
+.sega-hero-teaser img {
+  box-shadow: var(--sega-shadow-hero);
+  background-color: var(--sega-figure-frame);
+  outline: 1px solid var(--sega-figure-outline);
+}
+
+.citation-block {
+  background: var(--sega-citation-bg) !important;
+  color: var(--sega-citation-text);
+  border: 1px solid var(--sega-border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  overflow-x: auto;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.citation-block code {
+  color: inherit;
+}
+
+.compare-slider--clicker .clicker-main {
+  background: var(--sega-media-bg);
+}
+
+.clicker-arrow {
+  background: var(--sega-arrow-bg);
+  color: var(--sega-arrow-text);
+  border-color: var(--sega-arrow-border);
+}
+
+.clicker-arrow:hover:not(:disabled) {
+  background: var(--sega-pill-hover);
+  border-color: var(--sega-pill-border);
+}
+
+.clicker-pill {
+  background: var(--sega-pill-bg);
+  color: var(--sega-text);
+  border-color: var(--sega-pill-border);
+}
+
+.clicker-pill:hover:not(.is-active) {
+  background: var(--sega-pill-hover);
+}
+
+.clicker-pill.is-active {
+  background: var(--sega-pill-active-bg);
+  color: var(--sega-pill-active-text);
+  border-color: var(--sega-pill-active-bg);
+}
+
+.clicker-prompt-prefix {
+  color: var(--sega-text-subtle);
+}
+
+.clicker-prompt-body {
+  color: var(--sega-text-strong);
+}
+
+.baseline-grid-cell img {
+  box-shadow: var(--sega-image-shadow);
+}
+
+.compare-slider-viewport {
+  background: var(--sega-viewport-bg);
+}
+
+.theme-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid var(--sega-toggle-border);
+  background: var(--sega-toggle-bg);
+  color: var(--sega-toggle-text);
+  cursor: pointer;
+  box-shadow: var(--sega-shadow-sm);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.04);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--sega-accent);
+  outline-offset: 3px;
+}
+
+.theme-toggle .theme-toggle-icon {
+  position: absolute;
+  font-size: 1.05rem;
+  line-height: 1;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.theme-toggle .theme-toggle-icon--sun {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+.theme-toggle .theme-toggle-icon--moon {
+  opacity: 0;
+  transform: rotate(-30deg) scale(0.85);
+}
+
+.theme-toggle.is-dark-active .theme-toggle-icon--sun {
+  opacity: 0;
+  transform: rotate(30deg) scale(0.85);
+}
+
+.theme-toggle.is-dark-active .theme-toggle-icon--moon {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+[data-theme="dark"] .publication-links .button.is-dark {
+  background-color: #e8e8ef;
+  border-color: #e8e8ef;
+  color: #121218;
+}
+
+[data-theme="dark"] .publication-links .button.is-dark:hover {
+  background-color: #ffffff;
+  border-color: #ffffff;
+  color: #121218;
+}
+
+[data-theme="dark"] .img-magnifier-lens {
+  border-color: rgba(255, 255, 255, 0.75);
+  background-color: #0a0a0c;
+}
+
+[data-theme="dark"] .teaser-row-label p {
+  background: rgba(28, 29, 38, 0.75);
+  color: var(--sega-text);
+}
+
+@media screen and (max-width: 768px) {
+  .theme-toggle {
+    top: 0.65rem;
+    right: 0.65rem;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}

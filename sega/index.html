@@ -21,13 +21,35 @@
       href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css"
     />
     <link rel="stylesheet" href="./static/css/index.css" />
+    <link rel="stylesheet" href="./static/css/theme.css" />
     <link rel="icon" type="image/png" sizes="32x32" href="./static/images/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="./static/images/favicon-16.png" />
     <link rel="apple-touch-icon" href="./static/images/apple-touch-icon.png" />
 
     <script defer src="./static/js/fontawesome.all.min.js"></script>
+    <script>
+      (function () {
+        var key = "sega-theme";
+        var theme;
+        try {
+          theme = localStorage.getItem(key);
+        } catch (e) {
+          theme = null;
+        }
+        if (theme !== "light" && theme !== "dark") {
+          theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+        document.documentElement.setAttribute("data-theme", theme);
+        document.documentElement.style.colorScheme = theme;
+      })();
+    </script>
   </head>
   <body>
+    <button type="button" id="theme-toggle" class="theme-toggle" aria-pressed="false" aria-label="Switch to dark theme" title="Dark mode">
+      <span class="theme-toggle-icon theme-toggle-icon--sun" aria-hidden="true"><i class="fas fa-sun"></i></span>
+      <span class="theme-toggle-icon theme-toggle-icon--moon" aria-hidden="true"><i class="fas fa-moon"></i></span>
+    </button>
+
     <section class="hero">
       <div class="hero-body">
         <div class="container is-full-width">
@@ -116,8 +138,8 @@
                     height="960"
                     decoding="async"
                     fetchpriority="high"
-                    style="width: 100%; height: auto; border-radius: 12px; display: block; box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12)"
-                    onerror="this.onerror=null;this.src='./static/images/placeholder.svg'"
+                    style="width: 100%; height: auto; border-radius: 12px; display: block"
+                    onerror="this.onerror=null;this.src=(document.documentElement.getAttribute('data-theme')==='dark'?'./static/images/placeholder-dark.svg':'./static/images/placeholder.svg')"
                   />
                 </figure>
                 <div class="has-text-justified" style="margin-top: 0.85rem">
@@ -411,7 +433,7 @@
         <div class="columns is-centered">
           <div class="column is-full-width">
             <h2 class="title is-3 has-text-centered">Citation</h2>
-            <pre style="background: #fff; border-radius: 12px; padding: 1.25rem; overflow-x: auto"><code>@article{rajabi2026sega,
+            <pre class="citation-block"><code>@article{rajabi2026sega,
   title={SEGA: Spectral-Energy Guided Attention for Resolution Extrapolation in Diffusion Transformers},
   author={Rajabi, Javad and Shaban, Kimia and Roohi, Koorosh and Lindell, David B and Taati, Babak},
   journal={arXiv preprint arXiv:2605.22668},
@@ -439,6 +461,7 @@
         </div>
       </div>
     </footer>
+    <script src="./static/js/theme-toggle.js"></script>
     <script src="./static/js/image-magnifier.js"></script>
     <script src="./static/js/compare-slider.js"></script>
   </body>

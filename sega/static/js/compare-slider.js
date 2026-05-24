@@ -53,7 +53,10 @@
       img.decoding = "async";
       img.addEventListener("error", function once() {
         img.removeEventListener("error", once);
-        img.src = "./static/images/placeholder.svg";
+        img.src =
+          typeof window.segaPlaceholderUrl === "function"
+            ? window.segaPlaceholderUrl()
+            : "./static/images/placeholder.svg";
       });
 
       cell.appendChild(lab);
