@@ -20,13 +20,13 @@
     }
   }
 
-  function getSystemTheme() {
-    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  function getDefaultTheme() {
+    return "light";
   }
 
   function resolveTheme() {
     var stored = getStoredTheme();
-    return stored === "light" || stored === "dark" ? stored : getSystemTheme();
+    return stored === "light" || stored === "dark" ? stored : getDefaultTheme();
   }
 
   function applyTheme(theme) {
@@ -78,12 +78,6 @@
       });
     }
 
-    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function (e) {
-      if (getStoredTheme()) return;
-      var next = e.matches ? "dark" : "light";
-      applyTheme(next);
-      updateToggleButton(btn, next);
-    });
   }
 
   if (document.readyState === "loading") {
