@@ -47,6 +47,7 @@
   --sega-interpolation-bg: #f5f5f5;
   --sega-prompt-text: #242424;
   --sega-method-label-text: #1a1a1a;
+  --sega-meta-text: #7a7a7a;
 }
 
 [data-theme="dark"] {
@@ -94,8 +95,10 @@
   --sega-citation-bg: #1c1d26;
   --sega-citation-text: #d8d8e4;
   --sega-interpolation-bg: #17181f;
-  --sega-prompt-text: #f8f8fc;
-  --sega-method-label-text: #f2f3fa;
+  --sega-prompt-text: #ffffff;
+  --sega-method-label-text: #ffffff;
+  --sega-meta-text: #e8e8f2;
+  --sega-text-faint: #d8d8e4;
 }
 
 body {
@@ -135,9 +138,7 @@ body {
   color: var(--sega-text);
 }
 
-.has-text-grey,
-.baseline-backend-line,
-.clicker-backend-line {
+.has-text-grey:not(.baseline-backend-line):not(.clicker-backend-line):not(.clicker-index) {
   color: var(--sega-text-faint) !important;
 }
 
@@ -189,9 +190,15 @@ body {
   color: #f0f1f8 !important;
 }
 
+.baseline-backend-line,
+.clicker-backend-line {
+  color: var(--sega-meta-text, #7a7a7a) !important;
+}
+
 [data-theme="dark"] .baseline-backend-line,
-[data-theme="dark"] .clicker-backend-line {
-  color: #c4c4d2 !important;
+[data-theme="dark"] .clicker-backend-line,
+[data-theme="dark"] .clicker-index.has-text-grey {
+  color: var(--sega-meta-text, #e4e4ee) !important;
 }
 
 .sega-tldr-card,
@@ -390,4 +397,21 @@ body {
     width: 2.5rem;
     height: 2.5rem;
   }
+}
+
+/* High-contrast dark-mode copy for baseline / results labels (beats Bulma .has-text-grey) */
+html[data-theme="dark"] .fullwidth-gray-bg .baseline-block-heading .baseline-prompt-line,
+html[data-theme="dark"] .fullwidth-gray-bg .baseline-block-heading .baseline-prompt-line strong,
+html[data-theme="dark"] .compare-slider .baseline-grid-mount .baseline-grid-label,
+html[data-theme="dark"] .compare-slider .baseline-grid-mount .baseline-grid-label strong,
+html[data-theme="dark"] .compare-slider--clicker .clicker-prompt-hero,
+html[data-theme="dark"] .compare-slider--clicker .clicker-prompt-body,
+html[data-theme="dark"] .compare-slider--clicker .clicker-prompt-prefix {
+  color: #ffffff !important;
+}
+
+html[data-theme="dark"] .fullwidth-gray-bg .baseline-backend-line.has-text-grey,
+html[data-theme="dark"] .compare-slider--clicker .clicker-backend-line.has-text-grey,
+html[data-theme="dark"] .compare-slider--clicker .clicker-index.has-text-grey {
+  color: #e8e8f2 !important;
 }
