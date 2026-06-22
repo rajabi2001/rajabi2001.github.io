@@ -7,7 +7,7 @@ All sliders on the page are **manifest-driven** — the HTML doesn't list images
 Each `compare-slider` in `index.html` has a `data-manifest` attribute pointing at its manifest:
 
 - **Results (Flux)** → `static/images/slider/flux4096/manifest.json`
-- **Baseline comparisons** → `static/images/slider/aesthetic/p00036/manifest.json`, `p00100/manifest.json`, `p00106/manifest.json`, `p00168/manifest.json`, `p00166/manifest.json`, and `static/images/slider/crocodile/manifest.json`
+- **Baseline comparisons** → `static/images/slider/aesthetic/p00036/manifest.json`, `p00100/manifest.json`, `p00166/manifest.json`, and `static/images/slider/crocodile/manifest.json`
 
 The image files themselves live in the **same folder** as the manifest (or in a relative subfolder). For example, `flux_01.png` lives next to `flux4096/manifest.json`.
 
@@ -157,6 +157,6 @@ sega/
             │   ├── p00036/dype.png
             │   ├── p00036/ultra.png
             │   ├── p00036/sega.png
-            │   └── p00100/, p00106/, ...
+            │   └── p00100/, p00166/, ...
             └── crocodile/manifest.json
 ```

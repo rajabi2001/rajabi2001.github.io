@@ -1,12 +1,10 @@
 {
   "source": "zero_shot_high_res_image_gen_benchmark.jsonl",
-  "mapping": "Prompt ids 36, 100, 106, 166, 168 match images/5k_{id+1:03d}.jpg in that JSONL; the crocodile benchmark row matches images/5k_039.jpg.",
+  "mapping": "Prompt ids 36, 100, 166 match images/5k_{id+1:03d}.jpg in that JSONL; the crocodile benchmark row matches images/5k_039.jpg.",
   "prompts": {
     "36": "Polar bear swimming underwater, paws paddling, fur streaming, bubbles, blue-green Arctic water, bioluminescent plankton",
     "100": "A cat and a bunny sitting on a table having a tea party.",
-    "106": "A koala reading a newspaper while sitting on a park bench.",
     "166": "A staircase made of stacked books leading up to a glowing door.",
-    "168": "A train driving through a tunnel made of giant colorful candy.",
     "crocodile": "Nile crocodile eye at surface level, golden eye above waterline, reflection of savanna sky, scales in perfect detail"
   }
 }
