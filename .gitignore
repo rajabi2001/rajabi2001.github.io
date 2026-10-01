@@ -1,3 +1,6 @@
 
 .codegpt
 .DS_Store
+# AReA: full-resolution masters never go in the repo (see area/README.md)
+area/masters/
+area/static/img/*/.source
