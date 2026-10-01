@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AReA</title>
+    <meta
+      name="description"
+      content="AReA: a training-free attention mechanism whose receptive field evolves from coarse to fine, for efficient high-resolution generation with diffusion transformers."
+    />
+    <meta name="theme-color" content="#0B1628" />
+    <meta property="og:title" content="AReA: Adaptive Receptive-Field Attention for Efficient High-Resolution Diffusion Transformers" />
+    <meta property="og:description" content="Training-free, efficient high-resolution generation: global attention early, local windows late." />
+    <link rel="icon" href="./static/img/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="./static/fonts/ibm-plex-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="./static/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="./static/css/area.css" />
+    <script>
+      document.documentElement.classList.add("js");
+    </script>
+  </head>
+  <body>
+    <div class="backdrop" aria-hidden="true">
+      <div class="backdrop__glow"></div>
+      <canvas class="backdrop__dust" id="dust"></canvas>
+      <div class="backdrop__vignette"></div>
+    </div>
+
+    <main class="page">
+      <!-- ============ hero ============ -->
+      <header class="hero" data-accent="coarse">
+        <div class="wrap wrap--wide">
+          <h1 class="sr-only">AReA: Adaptive Receptive-Field Attention for Efficient High-Resolution Diffusion Transformers</h1>
+          <div class="title-stage" id="title-stage">
+            <canvas id="title" aria-hidden="true"></canvas>
+            <div class="title-stage__fallback" aria-hidden="true"><b>AReA</b><span>Adaptive Receptive-Field Attention</span><em>for Efficient High-Resolution Diffusion Transformers</em></div>
+          </div>
+
+          <div class="meta stage-in">
+            <ul class="authors">
+              <li><a href="https://www.cs.toronto.edu/~rajabi/" target="_blank" rel="noopener">Javad Rajabi</a><sup>1,2</sup><sup class="eq">*</sup></li>
+              <li><a href="https://kooroshrh.github.io/" target="_blank" rel="noopener">Koorosh Roohi</a><sup>1,2,3</sup><sup class="eq">*</sup></li>
+              <li><a href="https://davidlindell.com/" target="_blank" rel="noopener">David B. Lindell</a><sup>1,2</sup></li>
+              <li><a href="https://www.cs.toronto.edu/~taati/" target="_blank" rel="noopener">Babak Taati</a><sup>1,2,3</sup></li>
+            </ul>
+            <p class="affiliations">
+              <span><sup>1</sup>University of Toronto</span><span><sup>2</sup>Vector Institute</span><span><sup>3</sup>KITE Research Institute, UHN</span>
+            </p>
+            <p class="note"><sup>*</sup> Equal contribution</p>
+          </div>
+
+          <ul class="links stage-in" data-step="1" aria-label="Resources">
+            <li>
+              <span class="chip chip--soon" title="Coming soon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6" /><path d="M8 13h8" /><path d="M8 17h5" /></svg>
+                Paper <em>· soon</em>
+              </span>
+            </li>
+            <li>
+              <span class="chip chip--soon" title="Coming soon">
+                <!-- arXiv logo from Academicons (SIL OFL 1.1) -->
+                <svg viewBox="0 0 448 512" fill="currentColor" aria-hidden="true"><g transform="matrix(1.5499998,0,0,-1.5499998,-123.19936,553.59966)"><path d="m 119.65,351.996 c -5.84961,0.13477 -11.1943,-3.29883 -13.502,-8.67578 -2.19629,-5.27051 -0.61914,-8.9668 4.19727,-15.8652 7.05469,-10.3799 78.8242,-96.5625 78.8242,-96.5625 l -15.8828,-14.8633 c -13.3809,-13.3779 -13.9561,-31.333 -1.50977,-43.7754 l 18.4922,-17.6133 -51.5977,-63.377 c -4.00586,-4.26758 -6.48535,-11.7559 -4.24805,-17.1309 2.27832,-5.53613 7.69727,-9.12891 13.6836,-9.07031 3.83398,0.0957 7.43262,1.87402 9.83789,4.86133 l 61.3691,57.0566 94.5762,-90.0703 c 3.19434,-3.08398 7.44336,-4.83984 11.8828,-4.91016 1.60449,0.0039 3.19824,0.245117 4.73242,0.714844 5.7793,1.80566 10.249,6.41797 11.8711,12.252 1.2998,5.47363 -0.27637,11.2334 -4.18164,15.2832 l -83.0859,100.011996 14.8789,13.834 c 11.0957,10.0029 11.1543,27.3906 0.12695,37.4688 l -16.2949,15.6309 56.2559,66.4434 0.0742,0.0859 0.0664,0.0899 c 5.02734,6.53125 7.43164,11.5615 4.83984,17.9395 -3.13379,5.96875 -8.69727,10.29 -15.2559,11.8516 -0.67676,0.0908 -1.35938,0.13574 -2.04297,0.13671 l -0.004,-0.0117 c -4.42871,-0.27051 -8.61035,-2.13086 -11.7754,-5.24023 l -0.13086,-0.10743 -0.12304,-0.11132 -65.207,-59.127 -89.8965,86.2402 c 0,0 -5.33398,6.47754 -10.9707,6.61133 z m 178.104,-33.041 c 0.47852,-0.002 0.95703,-0.0332 1.43164,-0.0957 4.84277,-1.33301 8.95605,-4.54004 11.4316,-8.91016 1.44922,-3.5625 1.00293,-6.45703 -4.19727,-13.2148 l -56.0586,-66.2188 -26.375,25.3027 64.9551,58.9062 c 2.33887,2.41504 5.46484,3.91113 8.8125,4.2168 v 0.0137 z M 192.436,227.402 334.446,57.244 c 2.78711,-3.48926 4.5293,-6.97949 3.3418,-10.9121 -1.16113,-4.30273 -4.43457,-7.71777 -8.68555,-9.05664 -1.08105,-0.333984 -2.20508,-0.503906 -3.33594,-0.505859 -3.20801,0.07617 -6.26953,1.35645 -8.57617,3.58789 l -142.033,135.284999 c -11.1719,11.1719 -9.48242,26.0195 1.39258,36.8945 z" /></g></svg>
+                arXiv <em>· soon</em>
+              </span>
+            </li>
+            <li>
+              <span class="chip chip--soon" title="Coming soon">
+                <!-- GitHub mark, Primer Octicons (MIT) -->
+                <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6.766 11.328c-2.063-.25-3.516-1.734-3.516-3.656 0-.781.281-1.625.75-2.188-.203-.515-.172-1.609.063-2.062.625-.078 1.468.25 1.968.703.594-.187 1.219-.281 1.985-.281.765 0 1.39.094 1.953.265.484-.437 1.344-.765 1.969-.687.218.422.25 1.515.046 2.047.5.593.766 1.39.766 2.203 0 1.922-1.453 3.375-3.547 3.64.531.344.89 1.094.89 1.954v1.625c0 .468.391.734.86.547C13.781 14.359 16 11.53 16 8.03 16 3.61 12.406 0 7.984 0 3.563 0 0 3.61 0 8.031a7.88 7.88 0 0 0 5.172 7.422c.422.156.828-.125.828-.547v-1.25c-.219.094-.5.156-.75.156-1.031 0-1.64-.562-2.078-1.609-.172-.422-.36-.672-.719-.719-.187-.015-.25-.093-.25-.187 0-.188.313-.328.625-.328.453 0 .844.281 1.25.86.313.452.64.655 1.031.655s.641-.14 1-.5c.266-.265.47-.5.657-.656"/></svg>
+                Code <em>· soon</em>
+              </span>
+            </li>
+            <li>
+              <a class="chip" href="#method">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="3" height="3" rx="0.8" /><rect x="18" y="18" width="3" height="3" rx="0.8" /></svg>
+                Method
+              </a>
+            </li>
+          </ul>
+
+          <p class="prev stage-in" data-step="2">
+            <a class="prev__link" href="../sega/">
+              <span class="prev__k">Previous work</span><span class="prev__name">SEGA</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14" /><path d="m13 6 6 6-6 6" /></svg>
+            </a>
+          </p>
+
+          <a class="scroll-cue stage-in" data-step="3" href="#teaser"><span>scroll</span><i></i></a>
+        </div>
+      </header>
+
+      <!-- ============ teaser ============ -->
+      <section class="section" id="teaser" data-accent="coarse" style="padding-top: 1rem">
+        <div class="wrap">
+          <figure class="figure figure--wide rv">
+            <div class="frame" data-img="teaser" data-magnifier data-lens="0.850,0.411" data-lens-zoom="4" data-ar="1815 / 1458" data-full-link="none" data-priority="high" data-sizes="(min-width: 1180px) 1152px, 100vw"
+                 data-alt="AReA samples across FLUX.1, Qwen-Image, FLUX.2 and Ideogram 4 at resolutions up to 8k × 8k"></div>
+            <figcaption>
+              <b>High-resolution generation.</b> AReA enables training-free and efficient high-resolution generation across
+              FLUX.1, Qwen-Image, FLUX.2, and Ideogram 4.
+              <span class="hint">Move the pointer over the image to magnify it · on a phone, drag the lens</span>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- ============ keywords ============ -->
+      <section class="section" aria-label="At a glance" data-accent="coarse">
+        <div class="wrap wrap--wide">
+          <div class="keywords">
+            <div class="kw res" style="--c: var(--coarse)"><span class="kw__word">High-Resolution Image Generation</span><div class="kw__sub">up to 6× the native side, 67 megapixels</div></div>
+            <div class="kw res" style="--c: var(--fine)" data-d="1"><span class="kw__word">Efficient</span><div class="kw__sub">fewer keys per query, up to 3.2× faster</div></div>
+            <div class="kw res" style="--c: var(--halo)" data-d="2"><span class="kw__word">Training-free</span><div class="kw__sub">pretrained weights untouched</div></div>
+            <div class="kw res" style="--c: var(--bridge)" data-d="3"><span class="kw__word">RoPE unchanged</span><div class="kw__sub">no RoPE extrapolation, applied without modification</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ abstract ============ -->
+      <section class="section" id="abstract" data-accent="coarse">
+        <div class="wrap prose">
+          <p class="kicker rv">Abstract</p>
+          <p class="rv" data-d="1">
+            Generating images beyond the training resolution of Diffusion Transformers (DiTs) remains challenging, as the
+            number of tokens grows rapidly with resolution, full attention becomes expensive, and outputs often suffer from
+            structural distortions and degraded detail. We identify uniform full attention as the common source of both
+            problems. Attending to all tokens at every step causes quadratic cost and exposes the model to more tokens and
+            longer relative distances than seen during training, pushing it out of distribution. We observe that
+            attention’s effective receptive field narrows during denoising, from global in early steps that form structure
+            to local in later steps that refine details. We propose <span class="wm">AReA</span>, a training-free attention
+            mechanism whose receptive field evolves from coarse to fine, following the denoising progression. In early
+            steps, AReA applies cross-scale coarse attention over downsampled keys and values, capturing global context,
+            while in later steps it applies local attention within progressively shrinking windows. Without additional
+            parameters or training, experiments show that AReA consistently outperforms state-of-the-art training-free
+            baselines across target resolutions and different models, while also being faster and more efficient.
+          </p>
+        </div>
+      </section>
+
+      <!-- ============ method video: the whole story in two minutes, before the detail ============ -->
+      <section class="section" id="video" data-accent="coarse">
+        <div class="wrap center">
+          <p class="kicker rv">In motion</p>
+          <h2 class="h2 rv" data-d="1">One image through two phases</h2>
+        </div>
+        <div class="wrap">
+          <figure class="figure figure--wide rv" data-d="2">
+            <div class="video-slot frame" id="method-video">
+              <div class="pimg pimg--pending" style="position: absolute; inset: 0; aspect-ratio: auto"><span>method video · coming soon</span></div>
+            </div>
+            <figcaption>A real FLUX.1 run at 4096², step by step: the problem, the observation, then AReA’s two phases.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- ============ the problem ============ -->
+      <section class="section sec--problem" id="problem" data-accent="bad">
+        <div class="wrap center">
+          <p class="kicker rv">The problem</p>
+          <h2 class="h2 rv" data-d="1">Full attention, far past training</h2>
+          <p class="lede rv" data-d="2">
+            Every token attends to every token at every step: the cost grows quadratically, and the model sees more tokens
+            and longer relative distances than in training, which pushes it out of distribution.
+          </p>
+        </div>
+        <div class="wrap">
+          <div class="figure figure--wide rv" data-d="2">
+            <p class="prompt">A tall model in a quilted saffron overcoat poses on a broad concrete stairway in directional morning sun, with an elegant silhouette separated clearly from a restrained background…</p>
+            <div class="fails">
+              <figure class="fail"><div class="fail-head"><span class="fail__tag">layout collapse</span></div><div data-img="fig2-baseline" data-ar="1 / 1" data-sizes="(min-width: 1180px) 230px, (min-width: 860px) 19vw, (min-width: 560px) 31vw, 46vw" data-alt="Full attention"></div><figcaption>Full attention</figcaption></figure>
+              <figure class="fail"><div class="fail-head"><span class="fail__tag">fragmentation</span></div><div data-img="fig2-ultraimage" data-ar="1 / 1" data-sizes="(min-width: 1180px) 230px, (min-width: 860px) 19vw, (min-width: 560px) 31vw, 46vw" data-alt="UltraImage"></div><figcaption>UltraImage</figcaption></figure>
+              <figure class="fail"><div class="fail-head"><span class="fail__tag">incomplete subject</span></div><div data-img="fig2-sigma" data-ar="1 / 1" data-sizes="(min-width: 1180px) 230px, (min-width: 860px) 19vw, (min-width: 560px) 31vw, 46vw" data-alt="SigMa"></div><figcaption>SigMa</figcaption></figure>
+              <figure class="fail"><div class="fail-head"><span class="fail__tag">distorted scales</span></div><div data-img="fig2-sega" data-ar="1 / 1" data-sizes="(min-width: 1180px) 230px, (min-width: 860px) 19vw, (min-width: 560px) 31vw, 46vw" data-alt="SEGA"></div><figcaption>SEGA</figcaption></figure>
+              <figure class="fail fail--ours"><div class="fail-head"><span class="fail__tag">coherent structure, fine detail</span></div><div data-img="fig2-area" data-ar="1 / 1" data-sizes="(min-width: 1180px) 230px, (min-width: 860px) 19vw, (min-width: 560px) 31vw, 46vw" data-alt="AReA"></div><figcaption>AReA (ours)</figcaption></figure>
+            </div>
+            <p class="caption">
+              <b>Failure modes at high resolution.</b> FLUX.1 at 4096 × 4096. Full attention keeps the model’s intended
+              subject but collapses the layout, while RoPE-based methods keep a layout but fragment, lose, or distort the
+              subject. AReA preserves both, and renders fine details.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ the observation ============ -->
+      <section class="section sec--observation" id="observation" data-accent="coarse">
+        <div class="wrap wrap--wide">
+          <div class="split">
+            <div>
+              <p class="kicker rv">The observation</p>
+              <h2 class="h2 rv" data-d="1">Attention narrows</h2>
+              <p class="lede rv" data-d="2">
+                from global in early steps that form structure to local in later steps that refine details. So the
+                receptive field that attention needs varies across denoising steps.
+              </p>
+            </div>
+            <div class="stats rv" data-d="2">
+              <div class="stat glass stat--hot">
+                <div class="stat__label">Distance to dominant keys</div>
+                <div class="stat__value">5.5×<small>closer</small></div>
+                <div class="track"><b>14.6</b><i></i><b>2.7</b> tokens</div>
+                <div class="stat__note">late in denoising, the most important keys lie close to the query</div>
+              </div>
+              <div class="stat glass">
+                <div class="stat__label">Distance over all keys</div>
+                <div class="stat__value">1.4×<small>closer</small></div>
+                <div class="track"><b>17.9</b><i></i><b>13.1</b> tokens</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ the idea ============ -->
+      <section class="section sec--idea" id="method" data-accent="mix">
+        <div class="wrap center">
+          <p class="kicker rv">The idea</p>
+          <h2 class="h2 rv" data-d="1"><span class="wm">AReA</span>: from coarse to fine</h2>
+          <p class="lede rv" data-d="2">
+            An attention receptive field that follows the denoising progression: global through pooled keys while the
+            layout forms, then local windows that shrink as fine details emerge. AReA never computes full attention at the
+            target resolution.
+          </p>
+        </div>
+        <div class="wrap wrap--wide">
+          <div class="idea glass rv" data-d="2" id="idea">
+            <div class="idea__panels">
+              <div class="phase" id="phase1" style="--c: var(--coarse)">
+                <svg id="mini1" viewBox="0 -34 300 364" role="img" aria-label="Phase I: a query attends to one pooled key per block across the whole canvas"></svg>
+                <div class="phase__tag">PHASE I · σ &gt; σ*</div>
+                <div class="phase__title">Cross-scale coarse attention</div>
+                <p class="phase__sub">keys and values pooled to one token per f × f block: every token still sees the whole image</p>
+              </div>
+              <div class="phase" id="phase2" style="--c: var(--fine)">
+                <svg id="mini2" viewBox="0 -34 300 364" role="img" aria-label="Phase II: attention within local windows that shrink; windows over smooth regions split"></svg>
+                <div class="phase__tag">PHASE II · σ &lt; σ*</div>
+                <div class="phase__title">Adaptive windowed fine attention</div>
+                <p class="phase__sub">local windows shrink as fine details emerge; windows over smooth regions split</p>
+              </div>
+            </div>
+            <div class="axis" id="axis" style="--star: 22%" role="slider" tabindex="0" aria-label="Noise level σ" aria-valuemin="0" aria-valuemax="1" aria-valuenow="1">
+              <div class="axis__line"></div>
+              <div class="axis__star"></div>
+              <div class="axis__knob"></div>
+              <span class="axis__lab axis__lab--top axis__lab--coarse" style="left: 11%">global, coarse</span>
+              <span class="axis__lab axis__lab--top axis__lab--fine" style="left: 61%">local, fine</span>
+              <span class="axis__lab axis__lab--bot axis__lab--start" style="left: 0; transform: none">σ = 1</span>
+              <span class="axis__lab axis__lab--bot axis__lab--star" style="left: 22%">σ*</span>
+              <span class="axis__lab axis__lab--bot" style="left: 100%; transform: translateX(-100%)">0</span>
+            </div>
+            <p class="axis__hint">denoising · drag the marker</p>
+          </div>
+
+          <figure class="figure rv">
+            <div class="frame frame--paper" data-img="fig4-pipeline" data-zoom data-ar="1815 / 857" data-full-link="none" data-sizes="(min-width: 1180px) 1152px, 100vw" data-alt="Pipeline of AReA"></div>
+            <figcaption>
+              <b>Pipeline of AReA.</b> Denoising moves from coarse to fine across σ*. In Phase I, full-resolution queries
+              attend to keys and values pooled to one token per f × f block on a native-resolution grid with a ramped f. In
+              Phase II, attention runs in shrinking local windows, and windows over smooth regions of the Discrete Wavelet
+              Transform (DWT) map are split to cut cost.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- ============ Phase I ============ -->
+      <section class="section sec--phase1" id="phase-1" data-accent="coarse">
+        <div class="wrap wrap--wide">
+          <p class="kicker rv">Phase I · coarse</p>
+          <h2 class="h2 rv" data-d="1">Global, early</h2>
+          <p class="lede rv" data-d="2">
+            The early steps decide the global layout, so every token needs a receptive field that covers the whole grid.
+            Queries stay at full resolution; keys and values are pooled.
+          </p>
+          <div class="cards cards--3">
+            <article class="card glass card--coarse rv">
+              <div class="card__tag">pooled keys</div>
+              <h3 class="card__title">One token per f × f block</h3>
+              <p>Each block of the grid is represented by its centre token, for keys and values alike. Each of the N
+                queries attends to all T + N/f² keys, at 1/f² of the cost, and the output stays at full resolution.</p>
+            </article>
+            <article class="card glass card--coarse rv" data-d="1">
+              <div class="card__tag">positions</div>
+              <h3 class="card__title">On a native-resolution grid</h3>
+              <p>The pooled keys sit on a coarse (W/f) × (H/f) grid and query coordinates are scaled by 1/f to match, so
+                the relative distances RoPE encodes stay close to the model’s training range.</p>
+            </article>
+            <article class="card glass card--coarse rv" data-d="2">
+              <div class="card__tag">pooling ramp</div>
+              <h3 class="card__title">Finer pooling as the layout forms</h3>
+              <p>A large f keeps the pooled grid within the model’s native range but is too coarse for object
+                boundaries; a small f duplicates subjects. AReA starts from the f<sub>0</sub> that matches the native
+                resolution and decreases it linearly over Phase I down to 2, each value snapped to a divisor of the
+                grid, so the pooled keys get finer as the image’s own detail grows.</p>
+              <span class="eq"><i>f̃<sub>t</sub></i> = <i>f</i><sub>0</sub> + (<i>t</i> − 1)/(<i>S<sub>c</sub></i> − 1) · (<i>f</i><sub>min</sub> − <i>f</i><sub>0</sub>)</span>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ Phase II ============ -->
+      <section class="section sec--phase2" id="phase-2" data-accent="fine">
+        <div class="wrap wrap--wide">
+          <p class="kicker rv">Phase II · fine</p>
+          <h2 class="h2 rv" data-d="1" style="color: var(--fine)">Local, late</h2>
+          <p class="lede rv" data-d="2">
+            Once the layout is set at σ*, fine details are local: each token interacts mainly with its nearby tokens.
+            Windows start large for coherence and shrink every step, down to the model’s native range.
+          </p>
+          <div class="cards cards--2">
+            <article class="card glass card--fine rv">
+              <div class="card__tag">shrinking windows</div>
+              <h3 class="card__title">Smaller every step</h3>
+              <p>From about 70% of the grid’s longer side down to the native size, each step checked against a cost
+                budget so no windowed step costs more than one full-attention pass.</p>
+              <span class="eq"><i>w<sub>t</sub></i> = <i>w</i><sub>start</sub> · (<i>w</i><sub>min</sub>/<i>w</i><sub>start</sub>)<sup>(<i>t</i>−1)/(<i>S<sub>d</sub></i>−1)</sup></span>
+            </article>
+            <article class="card glass card--fine rv" data-d="1">
+              <div class="card__tag">DWT splits</div>
+              <h3 class="card__title">Smooth windows split in four</h3>
+              <p>A wavelet map of the current state measures each region’s detail. Windows over smooth regions split into
+                quadrants; windows over detail, such as a face, keep their size.</p>
+            </article>
+            <article class="card glass card--halo rv" data-d="2">
+              <div class="card__tag">Halo</div>
+              <h3 class="card__title">A ring of neighbours</h3>
+              <p>Each window’s keys and values are extended with a narrow ring of neighbouring tokens, so edge tokens see
+                across the boundary. Window boundaries also shift randomly across steps, so seams never settle.</p>
+            </article>
+            <article class="card glass card--bridge rv" data-d="3">
+              <div class="card__tag">Global-KV Bridge</div>
+              <h3 class="card__title">Distinctive tokens, shared</h3>
+              <p>Tokens far from the global mean key, spread over the whole canvas, join every window’s keys in the same
+                softmax, a fixed fraction of the window, so small objects are not duplicated.</p>
+            </article>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============ results: qualitative ============ -->
+      <section class="section sec--results" id="results" data-accent="text">
+        <div class="wrap center">
+          <p class="kicker rv">Results</p>
+          <h2 class="h2 rv" data-d="1">Coherent structure, fine detail</h2>
+          <p class="lede rv" data-d="2">
+            Direct-inference baselines stretch bodies, duplicate subjects and garble text at high resolution. AReA keeps the
+            intended global structure while generating fine details, without altering positional encodings.
+          </p>
+        </div>
+        <div class="wrap">
+          <div class="figure figure--wide rv" data-d="2" id="compare"></div>
+        </div>
+      </section>
+
+      <!-- ============ results: numbers ============ -->
+      <section class="section sec--numbers" id="numbers" data-accent="fine">
+        <div class="wrap wrap--wide">
+          <p class="kicker rv">Efficiency</p>
+          <h2 class="h2 rv" data-d="1">Faster as resolution grows</h2>
+          <p class="lede rv" data-d="2">
+            Every windowed step is cheaper than one full-attention pass, so the speedup grows with resolution, where attention
+            cost increasingly dominates.
+          </p>
+
+          <div class="speed rv" data-d="2">
+            <div class="speed__hero glass">
+              <div class="row"><div class="big">3.2<small>×</small></div><p>faster than full attention at 6144² on <strong>FLUX.1</strong></p></div>
+              <div class="row"><div class="big">2.9<small>×</small></div><p>faster at 6144² on <strong>Qwen-Image</strong></p></div>
+            </div>
+            <div class="chart glass" id="latency"></div>
+          </div>
+
+          <div class="table-card glass rv" id="table1"></div>
+        </div>
+      </section>
+
+      <!-- ============ citation ============ -->
+      <section class="section" id="citation" data-accent="coarse">
+        <div class="wrap" style="max-width: 58rem">
+          <p class="kicker rv">Citation</p>
+          <p class="pending rv" data-d="1">BibTeX will appear here once the paper is public.</p>
+        </div>
+      </section>
+
+      <footer class="foot">
+        <div class="wrap">
+          <p><span class="wm">AReA</span> · Adaptive Receptive-Field Attention</p>
+          <p>University of Toronto · Vector Institute · KITE Research Institute, UHN</p>
+        </div>
+      </footer>
+    </main>
+
+    <script src="./static/data/images.js"></script>
+    <script src="./static/data/results.js"></script>
+    <script src="./static/js/area-title.js"></script>
+    <script src="./static/js/dust.js"></script>
+    <script src="./static/js/images.js"></script>
+    <script src="./static/js/hero.js"></script>
+    <script src="./static/js/idea.js"></script>
+    <script src="./static/js/results.js"></script>
+    <script src="./static/js/page.js"></script>
+  </body>
+</html>
