@@ -96,8 +96,8 @@ python3 -m http.server 8765
 
 ## Where the current images come from
 
-- Figures from the paper live as SVGs in `assets/AReA/` (pipeline, teaser) and `assets/images/` (failures, comparison);
-  the page never loads or links them.
+- Figures from the paper live as SVGs in `assets/AReA/` (pipeline, teaser, failures, comparison); the page never loads
+  or links them.
 - The teaser and pipeline masters were rendered from those SVGs in Chromium: the teaser at 5.65× (the density of the
   images embedded in it, 10,255 × 8,238), the pipeline at 4× with its Wingdings arrow replaced by a Unicode → (the
   SVG's arrow only renders where Wingdings is installed).

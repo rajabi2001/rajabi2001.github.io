@@ -40,7 +40,7 @@ window.AREA_FIG6 = {
 };
 
 // Side-by-side comparisons. Each image id is a master's file name under the masters folder (see README).
-// Images come from the paper's Figure 5 (assets/images/comparison.svg); the order follows the figure.
+// Images come from the paper's Figure 5 (assets/AReA/comparison.svg); the order follows the figure.
 window.AREA_COMPARISONS = [
   {
     id: "bottle", label: "Glass bottle", model: "FLUX.1", res: "4096 × 4096",
