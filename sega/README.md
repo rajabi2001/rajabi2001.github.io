@@ -129,6 +129,20 @@ python -m http.server 8765
 
 Then open <http://localhost:8765/sega/>. Any other static server works too (`npx serve`, etc.).
 
+## Image sizes
+
+- **Slider images are 1600×1600 PNGs** (downscaled from the 4096×4096 outputs). Keep new ones the same size: the hover
+  magnifier zooms relative to each file's own pixels, so mixing sizes makes one method in a comparison look zoomed in more
+  than another. Downscale with `magick in.png -alpha off -filter Lanczos -resize 1600x1600 out.png`.
+- **The hero teaser the page loads is `static/images/sega_teaser.webp`** (3600×2400, about 2 MB), rendered from
+  `sega_teaser.svg` (53 MB, kept as the source). If you edit the SVG, re-render it at 2.5× and re-encode:
+
+  ```bash
+  google-chrome --headless --screenshot=teaser.png --window-size=1440,960 --force-device-scale-factor=2.5 static/images/sega_teaser.svg
+  cwebp -q 88 -m 6 -sharp_yuv teaser.png -o static/images/sega_teaser.webp
+  magick teaser.png -resize 1200x800 -quality 85 -strip static/images/sega_teaser_og.jpg   # link-preview image
+  ```
+
 ## Quick checklist when changing slides
 
 - File is in the same folder as the `manifest.json`? ✓
@@ -145,7 +159,10 @@ sega/
 └── static/
     ├── css/index.css
     ├── js/compare-slider.js               ← slider logic (manifest fetch, layouts)
+    ├── js/citation-copy.js                ← BibTeX copy button
     └── images/
+        ├── sega_teaser.webp               ← hero teaser shown on the page (rendered from sega_teaser.svg)
+        ├── sega_teaser_og.jpg             ← link-preview image (og:image)
         └── slider/
             ├── flux4096/
             │   ├── manifest.json          ← Results (clicker) slider

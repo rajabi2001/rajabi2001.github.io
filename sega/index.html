@@ -6,16 +6,30 @@
       name="description"
       content="SEGA: Spectral-Energy Guided Attention for Resolution Extrapolation in Diffusion Transformers"
     />
-    <meta name="keywords" content="diffusion models, diffusion transformers, attention, super-resolution" />
+    <meta
+      name="keywords"
+      content="SEGA, NeurIPS 2026, diffusion transformers, resolution extrapolation, high-resolution image generation, RoPE, training-free"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SEGA</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://rajabi2001.github.io/sega/" />
+    <meta property="og:title" content="SEGA: Spectral-Energy Guided Attention (NeurIPS 2026)" />
+    <meta
+      property="og:description"
+      content="Training-free resolution extrapolation for diffusion transformers: content-aware attention scaling across RoPE components, up to 36 megapixels."
+    />
+    <meta property="og:image" content="https://rajabi2001.github.io/sega/static/images/sega_teaser_og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="800" />
+    <meta name="twitter:card" content="summary_large_image" />
 
     <link
       href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./static/css/bulma.min.css" />
-    <link rel="stylesheet" href="./static/css/fontawesome.all.min.css" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css"
@@ -83,6 +97,8 @@
                 <span class="author-block">Vector Institute</span>
               </div>
 
+              <p class="publication-venue-badge">NeurIPS 2026</p>
+
               <div class="has-text-centered" style="margin-top: 1rem">
                 <div class="publication-links">
                   <span class="link-block">
@@ -127,13 +143,22 @@
                     </a>
                   </span>
                 </div>
+
+                <a class="related-work-link" href="../area/">
+                  <span class="related-work-tag">New</span>
+                  <span class="related-work-text">
+                    Check out our new work <strong>AReA</strong>: Adaptive Receptive&#8209;Field Attention for Efficient
+                    High&#8209;Resolution Diffusion Transformers
+                  </span>
+                  <span class="related-work-arrow" aria-hidden="true">→</span>
+                </a>
               </div>
 
               <div class="hero-teaser-figure hero-teaser-figure--lead content" style="margin: 1.25rem auto 0 auto">
                 <figure class="image sega-hero-teaser" style="margin: 0 auto">
                   <img
-                    src="./static/images/sega_teaser.svg"
-                    alt="SEGA teaser figure"
+                    src="./static/images/sega_teaser.webp"
+                    alt="Gallery of high-resolution images generated with SEGA on Flux and Qwen, from 2048×4096 up to 6144×6144"
                     width="1440"
                     height="960"
                     decoding="async"
@@ -402,12 +427,18 @@
         <div class="columns is-centered">
           <div class="column is-full-width">
             <h2 class="title is-3 has-text-centered">Citation</h2>
-            <pre class="citation-block"><code>@article{rajabi2026sega,
+            <div class="citation-wrap">
+              <button type="button" class="citation-copy" id="citation-copy" aria-label="Copy BibTeX">
+                <span class="icon is-small"><i class="far fa-copy"></i></span>
+                <span class="citation-copy-text">Copy</span>
+              </button>
+              <pre class="citation-block"><code id="citation-bibtex">@inproceedings{rajabi2026sega,
   title={SEGA: Spectral-Energy Guided Attention for Resolution Extrapolation in Diffusion Transformers},
-  author={Rajabi, Javad and Shaban, Kimia and Roohi, Koorosh and Lindell, David B and Taati, Babak},
-  journal={arXiv preprint arXiv:2605.22668},
+  author={Rajabi, Javad and Shaban, Kimia and Roohi, Koorosh and Lindell, David B. and Taati, Babak},
+  booktitle={Advances in Neural Information Processing Systems (NeurIPS)},
   year={2026}
 }</code></pre>
+            </div>
           </div>
         </div>
       </div>
@@ -417,15 +448,10 @@
       <div class="container">
         <div class="content has-text-centered">
           <p>
-            This website is licensed under a
-            <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"
+            Website adapted from the <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> template and
+            licensed under a
+            <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/"
               >Creative Commons Attribution-ShareAlike 4.0 International License</a>.
-          </p>
-          <p>
-            This means you are free to borrow the
-            <a href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website, we just ask
-            that you link back to this page in the footer. Please remember to remove the analytics code included
-            in the header of the website which you do not want on your website.
           </p>
         </div>
       </div>
@@ -433,5 +459,6 @@
     <script src="./static/js/theme-toggle.js"></script>
     <script src="./static/js/image-magnifier.js"></script>
     <script src="./static/js/compare-slider.js"></script>
+    <script src="./static/js/citation-copy.js"></script>
   </body>
 </html>

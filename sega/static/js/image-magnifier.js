@@ -33,7 +33,8 @@
     var parent = img.parentNode;
     if (!parent) return;
 
-    var zoom = img.closest(".compare-slider") ? 1.3 : img.closest(".hero-teaser-figure") ? 2.5 : ZOOM;
+    // Hero teaser is a 3600px raster (2.5x its 1440px layout size), so zoom 1 = the old 2.5x on the SVG.
+    var zoom = img.closest(".compare-slider") ? 1.3 : img.closest(".hero-teaser-figure") ? 1 : ZOOM;
 
     var wrap = document.createElement("span");
     wrap.className = "img-magnifier-wrap";
