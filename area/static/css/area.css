@@ -327,6 +327,18 @@ a.chip:hover { text-decoration: none; border-color: rgba(125, 180, 255, 0.7); ba
   font: 500 0.6rem/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text);
   padding: 0.35rem 0.55rem; border-radius: 999px; border: 1px solid var(--rim); background: rgba(11, 22, 40, 0.72);
   -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+/* the lens' power switch (data-lens-zooms): a joined glass pill on the image's top-right corner, above the lens */
+.lens-power { position: absolute; top: 0.7rem; right: 0.7rem; z-index: 3; display: flex; align-items: center; gap: 2px;
+  padding: 3px; border-radius: 999px; border: 1px solid var(--rim); background: rgba(11, 22, 40, 0.72);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.lens-power__label { font: 500 0.56rem/1 var(--mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted);
+  padding: 0 0.35rem 0 0.5rem; }
+.lens-power__opt { font: 500 0.66rem/1 var(--mono); letter-spacing: 0.06em; color: var(--muted); cursor: pointer;
+  padding: 0.42rem 0.62rem; border: 0; border-radius: 999px; background: transparent; transition: color 0.2s, background-color 0.2s; }
+.lens-power__opt:hover { color: var(--text); }
+.lens-power__opt[aria-pressed="true"] { color: var(--bg); background: var(--text); }
+@media (hover: none) { .lens-power__opt { padding: 0.55rem 0.7rem; } }
+@media (max-width: 560px) { .lens-power { top: 0.5rem; right: 0.5rem; } .lens-power__label { display: none; } }
 
 .full-link { display: block; width: fit-content; margin: 0.45rem auto 0; font: 500 0.62rem var(--mono); letter-spacing: 0.08em;
   text-transform: uppercase; color: var(--coarse); }

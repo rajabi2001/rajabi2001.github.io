@@ -72,7 +72,9 @@ The teaser is the only image requested while the title plays.
 
    - `data-zoom`: click to zoom, again for full detail, drag to pan, Esc or Reset to leave.
    - `data-magnifier` (the teaser): a lens parked at `data-lens="x,y"` (fractions) that follows the pointer;
-     `data-lens-zoom` sets its power (4). Build its sharp parked crop with `--lens <id>=x,y` (below).
+     `data-lens-zoom` sets its power (4), and `data-lens-zooms="4,8"` lets viewers pick another one: a switch on the
+     image's top-right corner, a mouse click on the image, or `+`/`−`. Build its sharp parked crop with
+     `--lens <id>=x,y` (below); the crop covers the parked spot at any power of 4 or more.
    - `data-full-link="none"`: no link to the full-resolution file under the figure (the page's figures use this).
    - `data-priority="high"`: load eagerly (only for the image at the top).
    - `data-sizes`: how wide the image is shown, so the browser picks the right file.

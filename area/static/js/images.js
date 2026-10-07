@@ -186,18 +186,23 @@
   }
 
   // ---------- magnifier: a lens parked on the image that follows the cursor ----------
-  // data-magnifier on the host; data-lens="x,y" parks it (fractions of the image), data-lens-zoom sets the power.
+  // data-magnifier on the host; data-lens="x,y" parks it (fractions of the image), data-lens-zoom sets the power, and
+  // data-lens-zooms="4,8" offers a choice of powers: a switch on the image's corner, a mouse click on the image, or +/-.
   // The lens first magnifies the largest display file; the full-resolution file is fetched on the first interaction.
   // Mouse: the lens glides after the cursor and returns to its spot on leave. Touch: drag it, or tap to move it.
   // Keyboard: focus the image and use the arrow keys.
   function Magnifier(host, id, e, img) {
     const [px0, py0] = (host.dataset.lens || "0.5,0.5").split(",").map(Number);
-    const Z = Number(host.dataset.lensZoom || 4);
+    const Z0 = Number(host.dataset.lensZoom || 4);
+    const powers = [...new Set([Z0, ...(host.dataset.lensZooms || "").split(",").map(Number).filter((n) => n > 1)])]
+      .sort((a, b) => a - b);
+    let Z = Z0, zT = Z0; // the power drawn, easing towards the chosen one
     const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
     host.classList.add("magnify");
     host.style.aspectRatio = `${e.w} / ${e.h}`;
     host.setAttribute("tabindex", "0");
-    host.setAttribute("aria-label", (host.dataset.alt ? host.dataset.alt + ". " : "") + "Magnifier: move the pointer over the image, or use the arrow keys.");
+    host.setAttribute("aria-label", (host.dataset.alt ? host.dataset.alt + ". " : "") + "Magnifier: move the pointer over the image, or use the arrow keys"
+      + (powers.length > 1 ? `; press + or − to change the power (${powers.map((p) => p + "×").join(", ")}).` : "."));
     // the lens paints its source as a background, so only the lens' own circle is drawn each frame
     const lens = el("div", "lens");
     const tag = el("div", "lens__tag");
@@ -263,8 +268,11 @@
       const k = still ? 1 : 0.22;
       cur.x += (tgt.x - cur.x) * k;
       cur.y += (tgt.y - cur.y) * k;
+      // the power eases in log space, so 4× → 8× feels as even as 8× → 4×
+      Z = Math.exp(Math.log(Z) + (Math.log(zT) - Math.log(Z)) * k);
+      if (Math.abs(zT - Z) < 0.01) Z = zT;
       draw();
-      if (Math.abs(tgt.x - cur.x) + Math.abs(tgt.y - cur.y) > 0.0005) raf = requestAnimationFrame(step);
+      if (Math.abs(tgt.x - cur.x) + Math.abs(tgt.y - cur.y) > 0.0005 || Z !== zT) raf = requestAnimationFrame(step);
       else raf = 0;
     };
     // the lens' centre can go anywhere on the image, so every corner can be magnified; at the edges the lens hangs
@@ -278,9 +286,43 @@
       return [(ev.clientX - r.left) / r.width, (ev.clientY - r.top) / r.height];
     };
 
+    // the power switch: one button per power, on the image's top-right corner
+    let power = null;
+    const setPower = (p) => {
+      if (p === zT) return;
+      zT = p;
+      tag.textContent = `${p}×`;
+      for (const b of power.querySelectorAll("button")) b.setAttribute("aria-pressed", String(Number(b.dataset.power) === p));
+      upgrade(); // a higher power outruns the display file quickly, so fetch the full-resolution file now
+      if (!raf) raf = requestAnimationFrame(step);
+    };
+    // d = +1 / -1; wrap: from the highest power back to the lowest (the mouse click)
+    const cycle = (d, wrap) => {
+      const i = powers.indexOf(zT), n = powers.length;
+      setPower(powers[wrap ? (i + d + n) % n : Math.min(n - 1, Math.max(0, i + d))]);
+    };
+    if (powers.length > 1) {
+      power = el("div", "lens-power", {role: "group", "aria-label": "Magnifier power"});
+      power.appendChild(el("span", "lens-power__label", {"aria-hidden": "true"})).textContent = "lens";
+      for (const p of powers) {
+        const b = el("button", "lens-power__opt", {type: "button", "aria-pressed": String(p === Z0)});
+        b.dataset.power = p;
+        b.textContent = `${p}×`;
+        b.addEventListener("click", () => setPower(p));
+        power.appendChild(b);
+      }
+      host.appendChild(power);
+    }
+    // over the switch the lens holds still and the cursor shows, so a power can be picked without moving the lens
+    const onSwitch = (ev) => !!(power && ev.target instanceof Element && ev.target.closest(".lens-power"));
+
     // mouse: follow; leave: back to the parked spot
     host.addEventListener("pointermove", (ev) => {
       if (ev.pointerType !== "mouse" && !dragging) return;
+      if (onSwitch(ev)) {
+        host.classList.remove("is-following");
+        return;
+      }
       upgrade();
       host.classList.add("is-following");
       go(...at(ev));
@@ -291,9 +333,10 @@
       go(px0, py0);
     });
     // touch and pen: drag the lens, or tap to move it there
-    let dragging = false;
+    let dragging = false, lastType = "";
     host.addEventListener("pointerdown", (ev) => {
-      if (ev.pointerType === "mouse") return;
+      lastType = ev.pointerType;
+      if (ev.pointerType === "mouse" || onSwitch(ev)) return;
       upgrade();
       const [x, y] = at(ev);
       const W = host.clientWidth, H = host.clientHeight, R = lens.offsetWidth / 2;
@@ -303,12 +346,21 @@
       }
     });
     host.addEventListener("pointerup", (ev) => {
-      if (ev.pointerType === "mouse") return;
+      if (ev.pointerType === "mouse" || onSwitch(ev)) return;
       if (!dragging) go(...at(ev));
       dragging = false;
     });
     host.addEventListener("pointercancel", () => (dragging = false));
+    // mouse: a click on the image steps to the next power, right where the lens is (touch taps move the lens instead)
+    host.addEventListener("click", (ev) => {
+      if (power && lastType === "mouse" && !onSwitch(ev)) cycle(1, true);
+    });
     host.addEventListener("keydown", (ev) => {
+      if (power && (ev.key === "+" || ev.key === "=" || ev.key === "-" || ev.key === "_")) {
+        ev.preventDefault();
+        cycle(ev.key === "+" || ev.key === "=" ? 1 : -1, false);
+        return;
+      }
       const d = {ArrowLeft: [-0.03, 0], ArrowRight: [0.03, 0], ArrowUp: [0, -0.03], ArrowDown: [0, 0.03]}[ev.key];
       if (!d) return;
       ev.preventDefault();
