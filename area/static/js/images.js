@@ -205,9 +205,23 @@
       + (powers.length > 1 ? `; press + or − to change the power (${powers.map((p) => p + "×").join(", ")}).` : "."));
     // the lens paints its source as a background, so only the lens' own circle is drawn each frame
     const lens = el("div", "lens");
+    // the label on the lens' rim: its power, then the full-resolution file's status while it loads
     const tag = el("div", "lens__tag");
-    tag.textContent = `${Z}×`;
-    host.append(lens, tag);
+    const tagPower = tag.appendChild(el("span"));
+    const tagStatus = tag.appendChild(el("span", "lens__status", {"aria-live": "polite"}));
+    tagPower.textContent = `${Z}×`;
+    // the download's progress as an arc around the lens (spins when the size is unknown)
+    const NS = "http://www.w3.org/2000/svg";
+    const ring = document.createElementNS(NS, "svg");
+    ring.setAttribute("class", "lens__ring");
+    ring.setAttribute("viewBox", "0 0 100 100");
+    ring.setAttribute("aria-hidden", "true");
+    const arc = document.createElementNS(NS, "circle");
+    for (const [cls, c] of [["lens__ring-track", document.createElementNS(NS, "circle")], ["lens__ring-arc", arc]]) {
+      for (const [k, v] of [["cx", 50], ["cy", 50], ["r", 48], ["pathLength", 100], ["class", cls]]) c.setAttribute(k, v);
+      ring.appendChild(c);
+    }
+    host.append(lens, ring, tag);
     // layers, sharpest first: the full-resolution file once fetched; before that, a small full-resolution crop of the
     // parked spot (e.lens, so the lens is sharp at rest) over the largest display file
     let src = "", full = "", ready = false; // ready: draw() exists (it is defined further down)
@@ -222,24 +236,81 @@
     const setSrc = () => { if (!src) use(img.currentSrc || img.src); };
     if (img.complete && img.naturalWidth) setSrc();
     else img.addEventListener("load", setSrc, {once: true});
+    // p: fraction arrived, or null when the size is unknown
+    const progress = (p) => {
+      ring.classList.toggle("is-indeterminate", p == null);
+      arc.style.strokeDasharray = p == null ? "22 78" : `${(100 * p).toFixed(1)} 100`;
+    };
+    // s: "loading" (label + ring), "done" (a short "full res"), or "" (just the power)
+    const status = (s) => {
+      host.classList.toggle("is-hq-pending", s === "loading");
+      host.classList.toggle("is-hq-fresh", s === "done");
+      tagStatus.textContent = s === "loading" ? "loading full res" : s === "done" ? "full res" : "";
+      if (ready) draw();
+    };
     let hq = false;
     const upgrade = () => {
       if (hq || !e.hq) return;
       hq = true;
       host.classList.add("is-loading-hq");
-      const img2 = new Image();
-      img2.decoding = "async";
-      img2.onload = () => {
-        // decode before swapping, so the lens never flashes empty
-        (img2.decode ? img2.decode() : Promise.resolve()).catch(() => {}).then(() => {
-          full = img2.src;
-          draw();
+      const url = `./${e.hq.src}`;
+      // only say so if it takes a while, so fast connections never see the label flicker
+      let shown = false;
+      const showT = setTimeout(() => {
+        shown = true;
+        status("loading");
+      }, 300);
+      const swap = (u) => {
+        const img2 = new Image();
+        img2.decoding = "async";
+        img2.onload = () => {
+          // decode before swapping, so the lens never flashes empty
+          (img2.decode ? img2.decode() : Promise.resolve()).catch(() => {}).then(() => {
+            full = u;
+            clearTimeout(showT);
+            host.classList.remove("is-loading-hq");
+            if (shown) {
+              progress(1);
+              status("done");
+              setTimeout(() => status(""), 1600);
+            }
+            draw();
+          });
+        };
+        img2.onerror = () => {
+          clearTimeout(showT);
           host.classList.remove("is-loading-hq");
-          draw();
-        });
+          status("");
+        };
+        img2.src = u;
       };
-      img2.onerror = () => host.classList.remove("is-loading-hq");
-      img2.src = `./${e.hq.src}`;
+      // stream the file so the ring can show how much has arrived; without streams, or on any error, load it plainly
+      if (!window.fetch || !window.ReadableStream) {
+        progress(null);
+        swap(url);
+        return;
+      }
+      fetch(url)
+        .then(async (r) => {
+          if (!r.ok || !r.body) throw new Error(String(r.status));
+          const total = Number(r.headers.get("content-length")) || e.hq.bytes || 0;
+          const reader = r.body.getReader();
+          const parts = [];
+          let got = 0;
+          progress(total ? 0 : null);
+          for (;;) {
+            const {done, value} = await reader.read();
+            if (done) break;
+            parts.push(value);
+            got += value.length;
+            if (total) progress(Math.min(1, got / total));
+          }
+          swap(URL.createObjectURL(new Blob(parts, {type: r.headers.get("content-type") || "image/jpeg"})));
+        })
+        .catch(() => {
+          progress(null);
+          swap(url);
+        });
     };
 
     let cur = {x: px0, y: py0}, tgt = {x: px0, y: py0}, raf = 0;
@@ -261,6 +332,10 @@
       lens.style.backgroundImage = layers.map((l) => l.img).join(", ");
       lens.style.backgroundSize = layers.map((l) => l.size).join(", ");
       lens.style.backgroundPosition = layers.map((l) => l.pos).join(", ");
+      // the progress ring sits just outside the lens' rim
+      const R = D + 12;
+      ring.style.width = ring.style.height = `${R}px`;
+      ring.style.transform = `translate(${x - R / 2}px, ${y - R / 2}px)`;
       // the label rides on the lens' lower rim
       tag.style.transform = `translate(${x - tag.offsetWidth / 2}px, ${y + D / 2 - tag.offsetHeight - 6}px)`;
     };
@@ -291,7 +366,7 @@
     const setPower = (p) => {
       if (p === zT) return;
       zT = p;
-      tag.textContent = `${p}×`;
+      tagPower.textContent = `${p}×`;
       for (const b of power.querySelectorAll("button")) b.setAttribute("aria-pressed", String(Number(b.dataset.power) === p));
       upgrade(); // a higher power outruns the display file quickly, so fetch the full-resolution file now
       if (!raf) raf = requestAnimationFrame(step);

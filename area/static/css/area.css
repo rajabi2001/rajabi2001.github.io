@@ -327,6 +327,23 @@ a.chip:hover { text-decoration: none; border-color: rgba(125, 180, 255, 0.7); ba
   font: 500 0.6rem/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text);
   padding: 0.35rem 0.55rem; border-radius: 999px; border: 1px solid var(--rim); background: rgba(11, 22, 40, 0.72);
   -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+/* while the full-resolution file loads: a status on the lens' label and a progress arc around its rim */
+.lens__status:empty { display: none; }
+.lens__status { color: var(--muted); }
+.lens__status::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin: 0 0.4rem 0 0.5rem;
+  vertical-align: 1px; background: var(--fine); box-shadow: 0 0 8px var(--fine); animation: blink 1s ease-in-out infinite; }
+.magnify.is-hq-fresh .lens__status { color: var(--text); }
+.magnify.is-hq-fresh .lens__status::before { background: var(--halo); box-shadow: 0 0 8px var(--halo); animation: none; }
+.lens__ring { position: absolute; left: 0; top: 0; z-index: 2; overflow: visible; pointer-events: none; opacity: 0; transition: opacity 0.3s ease; }
+.magnify.is-hq-pending .lens__ring, .magnify.is-hq-fresh .lens__ring { opacity: 1; }
+.magnify.is-hq-fresh .lens__ring { transition-delay: 0.6s; opacity: 0; } /* the full arc lingers, then fades with the label */
+.lens__ring circle { fill: none; stroke-width: 2.5px; vector-effect: non-scaling-stroke; }
+.lens__ring-track { stroke: rgba(255, 255, 255, 0.14); }
+.lens__ring-arc { stroke: var(--fine); stroke-linecap: round; stroke-dasharray: 0 100; transform: rotate(-90deg); transform-origin: 50% 50%;
+  transition: stroke-dasharray 0.25s linear; filter: drop-shadow(0 0 4px rgba(242, 166, 90, 0.55)); }
+.lens__ring.is-indeterminate .lens__ring-arc { transition: none; animation: ring-spin 1.1s linear infinite; }
+@keyframes ring-spin { to { transform: rotate(270deg); } }
+@media (prefers-reduced-motion: reduce) { .lens__status::before, .lens__ring.is-indeterminate .lens__ring-arc { animation: none; } }
 /* the lens' power switch (data-lens-zooms): a joined glass pill on the image's top-right corner, above the lens */
 .lens-power { position: absolute; top: 0.7rem; right: 0.7rem; z-index: 3; display: flex; align-items: center; gap: 2px;
   padding: 3px; border-radius: 999px; border: 1px solid var(--rim); background: rgba(11, 22, 40, 0.72);

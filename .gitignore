@@ -4,3 +4,6 @@
 # AReA: full-resolution masters never go in the repo (see area/README.md)
 area/masters/
 area/static/img/*/.source
+# AReA: large download archives stay local (GitHub caps files at 100 MB)
+area/*.zip
+area/method_compact_final_pairs/
