@@ -35,6 +35,27 @@
   const LINE_AT = 136; // the subtitle fades in from frame 124; this line follows it
   const END = LINE_AT + 28; // everything has settled; the title's remaining frames are a hold
   const META_DELAY = 450; // ms into the glide before the authors rise in
+  // The title's own clock has lulls where almost nothing moves: after the opening network stops flickering (frames
+  // ~28-43, nearly still until ~38), where the first split level hands over to the next (~62-68), and after the last
+  // blocks split, before the word settles (~113-123). Play those stretches faster, [from, to, speed], so each phase
+  // runs into the next. Measured frame to frame, no still frames remain; the intro takes 4.8 s instead of 5.5 s.
+  const RUSH = [[28, 38, 6], [38, 43, 2], [62, 68, 1.6], [113, 123, 2.4]];
+  const warp = (() => {
+    const segs = []; // [title frame from, to, real frames it takes]
+    let at = 0;
+    for (const [a, b, s] of RUSH) {
+      segs.push([at, a, a - at], [a, b, (b - a) / s]);
+      at = b;
+    }
+    segs.push([at, END, END - at]);
+    return (rf) => { // real frames since the start -> title frame
+      for (const [a, b, d] of segs) {
+        if (rf <= d) return a + ((b - a) * rf) / d;
+        rf -= d;
+      }
+      return END;
+    };
+  })();
   const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const g = cv.getContext("2d");
   const off = document.createElement("canvas");
@@ -81,7 +102,7 @@
   };
   const tick = (now) => {
     if (t0 === null) t0 = now;
-    f = Math.min(END, ((now - t0) / 1000) * 30);
+    f = Math.min(END, warp(((now - t0) / 1000) * 30));
     paint(f);
     if (f >= END) finish();
     else requestAnimationFrame(tick);
