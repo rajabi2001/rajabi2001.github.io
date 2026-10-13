@@ -163,4 +163,74 @@ window.AREA_COMPARISONS = [
       {label: "AReA", img: "cmp-raincoat-area", ours: true},
     ],
   },
+  {
+    id: "model", label: "Blonde model", model: "Qwen-Image", res: "5120 × 5120",
+    prompt: "Blonde model with tousled hair wearing a form-fitting olive green dress, looking intently at the camera with a soft expression.",
+    caption: "Full attention blurs the scene and repeats subjects. SEGA keeps the layout but corrupts the details with high-frequency artifacts. AReA produces clean faces and the prompted number of subjects.",
+    methods: [
+      {label: "Full attention", img: "cmp-model-baseline"},
+      {label: "SEGA", img: "cmp-model-sega"},
+      {label: "AReA", img: "cmp-model-area", ours: true},
+    ],
+  },
+  {
+    id: "astronauts", label: "Astronauts", model: "Qwen-Image", res: "5120 × 5120",
+    prompt: "Three astronauts in white spacesuits sit side by side, flanked by the American flag on the left and the Russian flags on the right, each suit adorned with various mission patches and insignia.",
+    caption: "Full attention blurs the scene and repeats subjects. SEGA keeps the layout but corrupts the details with high-frequency artifacts. AReA produces clean faces and the prompted number of subjects.",
+    methods: [
+      {label: "Full attention", img: "cmp-astronauts-baseline"},
+      {label: "SEGA", img: "cmp-astronauts-sega"},
+      {label: "AReA", img: "cmp-astronauts-area", ours: true},
+    ],
+  },
+  {
+    id: "wizardcat", label: "Wizard cat", model: "Ideogram 4", res: "6144 × 6144",
+    prompt: "A ginger cat wearing a tiny wizard hat reading a spellbook.",
+    caption: "Full attention completely collapses, while SEGA fails to keep the layout and add fine detail. AReA excels in both structure and fine detail, showing that it transfers to a different backbone without modification.",
+    methods: [
+      {label: "Full attention", img: "cmp-wizardcat-baseline"},
+      {label: "SEGA", img: "cmp-wizardcat-sega"},
+      {label: "AReA", img: "cmp-wizardcat-area", ours: true},
+    ],
+  },
+  {
+    id: "railway", label: "Railway platform", model: "Ideogram 4", res: "6144 × 6144",
+    prompt: "A woodland railway platform carpeted with leaves collects fresh snow during a windless blue-hour evening, with seasonal plants and practical clothing appropriate to the conditions…",
+    caption: "Full attention completely collapses, while SEGA fails to keep the layout and add fine detail. AReA excels in both structure and fine detail, showing that it transfers to a different backbone without modification.",
+    methods: [
+      {label: "Full attention", img: "cmp-railway-baseline"},
+      {label: "SEGA", img: "cmp-railway-sega"},
+      {label: "AReA", img: "cmp-railway-area", ours: true},
+    ],
+  },
+];
+
+// Final images beside the video of the run that made them (the "Generation process" block under the comparisons).
+// img: id in static/data/images.js; video: the first 34 s of the method video (coarse phase, then fine phase).
+window.AREA_PROCESS = [
+  {
+    id: "woman", label: "Owl", bench: "Aesthetic-4K", model: "FLUX.1", res: "4096 × 4096",
+    img: "gen-woman", video: "./static/video/gen-woman.mp4", poster: "./static/video/gen-woman-poster.jpg",
+    prompt: "A woman with short hair and a black dress stands in a forest, holding an owl with large, outstretched wings. The sunlight filters through the trees, highlighting her tattoo and the owl's detailed feathers.",
+  },
+  {
+    id: "harbor", label: "Harbor", bench: "Aesthetic-4K", model: "FLUX.1", res: "4096 × 4096",
+    img: "gen-harbor", video: "./static/video/gen-harbor.mp4", poster: "./static/video/gen-harbor-poster.jpg",
+    prompt: "Colorful historic buildings line a tranquil harbor, their reflections shimmering in the water, with several sailboats moored nearby and restaurants illuminated in warm light under a cloudy sky.",
+  },
+  {
+    id: "redpandas", bench: "HRGen", label: "Red pandas", model: "FLUX.1", res: "4096 × 4096",
+    img: "gen-redpandas", video: "./static/video/gen-redpandas.mp4", poster: "./static/video/gen-redpandas-poster.jpg",
+    prompt: "In spring sunshine, two red pandas wrestle gently on a mossy branch beneath falling rhododendron petals that collect in their thick tails.",
+  },
+  {
+    id: "snowleopard", bench: "HRGen", label: "Snow leopard", model: "FLUX.1", res: "4096 × 4096",
+    img: "gen-snowleopard", video: "./static/video/gen-snowleopard.mp4", poster: "./static/video/gen-snowleopard-poster.jpg",
+    prompt: "A snow leopard descending a scree slope pauses at the edge of water while remaining alert to the surroundings, with species-accurate anatomy, coat or feather structure, and locomotion; cinematic telephoto realism with layered atmospheric depth.",
+  },
+  {
+    id: "monastery", bench: "HRGen", label: "Cliff monastery", model: "FLUX.1", res: "4096 × 4096",
+    img: "gen-monastery", video: "./static/video/gen-monastery.mp4", poster: "./static/video/gen-monastery-poster.jpg",
+    prompt: "A cliff monastery linked by carved staircases glows from within at dusk while the exterior remains richly detailed, with structurally coherent stairs, windows, railings, gutters, and masonry; an elevated oblique view emphasizing circulation and massing.",
+  },
 ];

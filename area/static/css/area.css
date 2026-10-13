@@ -466,12 +466,22 @@ a.chip:hover { text-decoration: none; border-color: rgba(125, 180, 255, 0.7); ba
 /* phones: the grid wraps into rows, so the arrows leave the images and sit in a row under them */
 @media (max-width: 560px) {
   .cmp__stage { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.9rem 1.2rem; }
-  .cmp__stage > .cmp__grid { flex: 0 0 100%; }
+  .cmp__stage > .cmp__grid, .cmp__stage > .proc__grid { flex: 0 0 100%; }
   .cmp__nav { position: static; transform: none; }
   .cmp__nav--prev:hover, .cmp__nav--next:hover { transform: none; }
 }
 .cmp__count { margin: 0.9rem 0 0; text-align: center; font: 500 0.66rem var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
 .cmp__count:empty { display: none; }
+/* generation process: the final image and the video of its run, side by side (stacked on phones) */
+.proc__head { margin-top: clamp(3.5rem, 8vw, 6rem); }
+.proc__title { margin: 0.5rem 0 0; font-weight: 600; font-size: clamp(1.25rem, 2.6vw, 1.7rem); line-height: 1.2; color: var(--text); }
+.proc__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; max-width: 60rem; margin: 0 auto; }
+.proc__cell { margin: 0; min-width: 0; }
+.proc__cell .zoom, .proc__video { border-radius: 12px; overflow: hidden; border: 1px solid var(--rule); }
+.proc__video { position: relative; aspect-ratio: 1 / 1; background: var(--panel); }
+.proc__video video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.proc__cell figcaption { margin-top: 0.5rem; text-align: center; font-weight: 500; font-size: 0.92rem; color: var(--text); }
+@media (max-width: 560px) { .proc__grid { grid-template-columns: minmax(0, 1fr); } }
 .cmp__grid { --cols: var(--n, 5); --gap: 0.6rem; display: flex; flex-wrap: wrap; justify-content: center; gap: var(--gap); }
 /* a centred wrap: a short last row (e.g. SEGA and AReA under three panels) sits in the middle, not on the left */
 .cmp__cell { margin: 0; flex: 0 0 calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols)); min-width: 0; }

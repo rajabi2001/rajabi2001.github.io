@@ -475,16 +475,36 @@
     else if (e && host.hasAttribute("data-zoom")) Zoom(host, host.dataset.img, e, img);
   }
 
-  // ---------- side-by-side comparisons (window.AREA_COMPARISONS, in static/data/results.js) ----------
-  // One comparison at a time; the arrows on either side of the images (or ← / → while the comparison has focus) step
-  // through them, wrapping around.
-  function comparisons(root) {
-    const sets = window.AREA_COMPARISONS || [];
+  // ---------- one sample at a time, with arrows (comparisons and the generation process) ----------
+  // The arrows on either side of the images (or ← / → while the block has focus) step through the samples, wrapping
+  // around. render(c, stage) fills the stage for sample c; the labels, prompt and counter are shared.
+  const chevron = (d) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
+  // benchmark, backbone and resolution, each labelled and styled apart
+  function metaPills(c) {
+    const meta = el("div", "cmp__meta");
+    for (const [k, v, cls] of [["benchmark", c.bench, "pill pill--bench"], ["backbone", c.model, "pill pill--model"], ["resolution", c.res, "pill pill--res"]]) {
+      if (!v) continue;
+      const pill = meta.appendChild(el("span", cls));
+      pill.appendChild(el("i")).textContent = k;
+      pill.appendChild(document.createTextNode(v));
+    }
+    return meta;
+  }
+  // the prompt; text wrapped in {{…}} is highlighted (e.g. a count the image should get right)
+  function promptEl(text) {
+    const prompt = el("p", "prompt");
+    text.split(/(\{\{.*?\}\})/).forEach((part) => {
+      const m = part.match(/^\{\{(.*)\}\}$/);
+      if (m) prompt.appendChild(el("strong", "prompt__hl")).textContent = m[1];
+      else if (part) prompt.appendChild(document.createTextNode(part));
+    });
+    return prompt;
+  }
+  function carousel(root, sets, opts) {
     if (!root || !sets.length) return;
     const body = el("div");
-    const chevron = (d) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
-    const prev = el("button", "cmp__nav cmp__nav--prev", {type: "button", "aria-label": "Previous comparison"});
-    const next = el("button", "cmp__nav cmp__nav--next", {type: "button", "aria-label": "Next comparison"});
+    const prev = el("button", "cmp__nav cmp__nav--prev", {type: "button", "aria-label": `Previous ${opts.noun}`});
+    const next = el("button", "cmp__nav cmp__nav--next", {type: "button", "aria-label": `Next ${opts.noun}`});
     prev.innerHTML = chevron("M15 5l-7 7 7 7");
     next.innerHTML = chevron("M9 5l7 7-7 7");
     let at = 0;
@@ -492,51 +512,24 @@
       at = (i + sets.length) % sets.length;
       const c = sets[at];
       const focused = document.activeElement;
+      if (opts.leave) opts.leave(body);
       body.innerHTML = "";
-      groups.delete(`cmp-${c.id}`); // a fresh zoom group each time a set is shown: it opens unzoomed
-      const meta = el("div", "cmp__meta");
-      // benchmark, backbone and resolution, each labelled and styled apart
-      for (const [k, v, cls] of [["benchmark", c.bench, "pill pill--bench"], ["backbone", c.model, "pill pill--model"], ["resolution", c.res, "pill pill--res"]]) {
-        if (!v) continue;
-        const pill = meta.appendChild(el("span", cls));
-        pill.appendChild(el("i")).textContent = k;
-        pill.appendChild(document.createTextNode(v));
-      }
-      // the prompt; text wrapped in {{…}} is highlighted (e.g. a count the image should get right)
-      const prompt = el("p", "prompt");
-      c.prompt.split(/(\{\{.*?\}\})/).forEach((part) => {
-        const m = part.match(/^\{\{(.*)\}\}$/);
-        if (m) prompt.appendChild(el("strong", "prompt__hl")).textContent = m[1];
-        else if (part) prompt.appendChild(document.createTextNode(part));
-      });
-      const grid = el("div", "cmp__grid");
-      grid.style.setProperty("--n", c.methods.length);
-      c.methods.forEach((m) => {
-        const fig = el("figure", "cmp__cell" + (m.ours ? " cmp__cell--ours" : ""));
-        const host = el("div", null, {"data-img": m.img, "data-zoom": "", "data-zoom-group": `cmp-${c.id}`, "data-full-link": "none",
-          "data-sizes": `(min-width: 1180px) ${Math.round(1152 / c.methods.length)}px, 34vw`, "data-alt": m.label, "data-ar": "1 / 1"});
-        const cap = el("figcaption");
-        cap.textContent = m.label;
-        if (m.ours) cap.appendChild(el("small")).textContent = " (ours)";
-        fig.append(host, cap);
-        grid.appendChild(fig);
-        mount(host);
-      });
-      // the arrows flank the images, so they sit with the grid rather than with the prompt
+      // the arrows flank the images, so they sit with them rather than with the prompt
       const stage = el("div", "cmp__stage");
-      stage.append(grid);
+      opts.render(c, stage);
       if (sets.length > 1) stage.append(prev, next);
       const count = el("p", "cmp__count", {"aria-live": "polite"});
       count.textContent = sets.length > 1 ? `${at + 1} / ${sets.length} · ${c.label}` : "";
       const hint = el("p", "caption");
-      hint.innerHTML = `${c.caption ? c.caption + " " : ""}<span class="hint" style="display:block;margin-top:.3rem;font:.68rem var(--mono);letter-spacing:.06em;opacity:.75">Click any image to zoom all of them at that point · drag to pan together</span>`;
-      body.append(meta, prompt, stage, count, hint);
+      hint.innerHTML = `${c.caption ? c.caption + " " : ""}<span class="hint" style="display:block;margin-top:.3rem;font:.68rem var(--mono);letter-spacing:.06em;opacity:.75">${opts.hint}</span>`;
+      body.append(metaPills(c), promptEl(c.prompt), stage, count, hint);
       if (focused === prev || focused === next) focused.focus(); // keep keyboard focus on the arrow that was pressed
     };
     prev.addEventListener("click", () => show(at - 1));
     next.addEventListener("click", () => show(at + 1));
     root.addEventListener("keydown", (ev) => {
       if (sets.length < 2 || (ev.key !== "ArrowLeft" && ev.key !== "ArrowRight")) return;
+      if (ev.target instanceof HTMLVideoElement) return; // the video uses the arrow keys to seek
       ev.preventDefault();
       show(at + (ev.key === "ArrowRight" ? 1 : -1));
     });
@@ -544,7 +537,85 @@
     show(0);
   }
 
+  // side-by-side comparisons (window.AREA_COMPARISONS, in static/data/results.js)
+  function comparisons(root) {
+    carousel(root, window.AREA_COMPARISONS || [], {
+      noun: "comparison",
+      hint: "Click any image to zoom all of them at that point · drag to pan together",
+      render(c, stage) {
+        groups.delete(`cmp-${c.id}`); // a fresh zoom group each time a set is shown: it opens unzoomed
+        const grid = el("div", "cmp__grid");
+        grid.style.setProperty("--n", c.methods.length);
+        c.methods.forEach((m) => {
+          const fig = el("figure", "cmp__cell" + (m.ours ? " cmp__cell--ours" : ""));
+          const host = el("div", null, {"data-img": m.img, "data-zoom": "", "data-zoom-group": `cmp-${c.id}`, "data-full-link": "none",
+            "data-sizes": `(min-width: 1180px) ${Math.round(1152 / c.methods.length)}px, 34vw`, "data-alt": m.label, "data-ar": "1 / 1"});
+          const cap = el("figcaption");
+          cap.textContent = m.label;
+          if (m.ours) cap.appendChild(el("small")).textContent = " (ours)";
+          fig.append(host, cap);
+          grid.appendChild(fig);
+          mount(host);
+        });
+        stage.append(grid);
+      },
+    });
+  }
+
+  // final images beside the video of the run that made them (window.AREA_PROCESS, in static/data/results.js).
+  // The video plays muted and on a loop while it is on screen, and pauses when it scrolls away or the sample changes.
+  function processes(root) {
+    let seen = false; // is the block on screen?
+    const playing = () => root.querySelector(".proc__video video");
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(([en]) => {
+        seen = en.isIntersecting;
+        const v = playing();
+        if (!v) return;
+        if (seen) v.play().catch(() => {});
+        else v.pause();
+      }, {threshold: 0.35}).observe(root);
+    } else seen = true;
+    carousel(root, window.AREA_PROCESS || [], {
+      noun: "sample",
+      hint: "The final image (click to zoom, drag to pan) beside the same run: coarse phase, then fine phase",
+      leave(body) {
+        const v = body.querySelector("video");
+        if (v) {
+          v.pause();
+          v.removeAttribute("src");
+          v.load(); // stop downloading the sample being left
+        }
+      },
+      render(c, stage) {
+        groups.delete(`proc-${c.id}`);
+        const grid = el("div", "proc__grid");
+        const fig = el("figure", "proc__cell");
+        const host = el("div", null, {"data-img": c.img, "data-zoom": "", "data-zoom-group": `proc-${c.id}`, "data-full-link": "none",
+          "data-sizes": "(min-width: 1180px) 570px, (min-width: 561px) 48vw, 100vw", "data-alt": `Final image: ${c.label}`, "data-ar": "1 / 1"});
+        const cap = el("figcaption");
+        cap.textContent = "Final image";
+        fig.append(host, cap);
+        const vfig = el("figure", "proc__cell");
+        const box = el("div", "proc__video");
+        const v = el("video", null, {muted: "", loop: "", playsinline: "", controls: "", preload: "metadata", poster: c.poster,
+          "aria-label": `AReA generating ${c.label}: coarse phase, then fine phase`});
+        v.muted = true; // the attribute alone does not allow autoplay in every browser
+        v.src = c.video;
+        box.appendChild(v);
+        const vcap = el("figcaption");
+        vcap.textContent = "Generation · coarse to fine";
+        vfig.append(box, vcap);
+        grid.append(fig, vfig);
+        stage.append(grid);
+        mount(host);
+        if (seen) v.play().catch(() => {});
+      },
+    });
+  }
+
   document.querySelectorAll("[data-img]").forEach(mount);
   comparisons(document.getElementById("compare"));
+  processes(document.getElementById("process"));
   window.AreaImages = {mount};
 })();

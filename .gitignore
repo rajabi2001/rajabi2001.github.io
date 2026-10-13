@@ -8,3 +8,4 @@ area/static/img/*/.source
 area/*.zip
 area/method_compact_final_pairs/
 area_4k_figure/
+area/comparison-*.svg
