@@ -376,6 +376,7 @@ a.chip:hover { text-decoration: none; border-color: rgba(125, 180, 255, 0.7); ba
 .fail-head { display: flex; justify-content: center; align-items: flex-end; min-height: 2.9rem; text-align: center; margin: 0 -1rem; }
 .prompt { margin: 0 auto 1rem; font-size: 0.82rem; font-style: italic; color: var(--muted); text-align: center; text-wrap: balance; }
 .prompt::before { content: "\201C"; } .prompt::after { content: "\201D"; }
+.prompt__hl { font-weight: 700; font-style: inherit; color: #ff4f4f; }
 
 /* ---------- the observation: two numbers ---------- */
 
@@ -448,6 +449,29 @@ a.chip:hover { text-decoration: none; border-color: rgba(125, 180, 255, 0.7); ba
 .pill i { font: 500 0.56rem var(--mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); opacity: 0.8; margin-right: 0.55em; }
 .pill--model { font: 600 0.8rem var(--sans); letter-spacing: 0; text-transform: none; color: var(--text); background: rgba(255, 255, 255, 0.06); }
 .pill--res { color: var(--text); }
+.pill--bench { color: var(--text); border-color: rgba(79, 209, 184, 0.45); background: rgba(79, 209, 184, 0.08); }
+/* one comparison at a time: arrows flank the images (outside them on wide screens, over their edges otherwise) */
+.cmp__stage { position: relative; }
+.cmp__nav { position: absolute; top: calc(50% - 0.9rem); transform: translateY(-50%); z-index: 4; display: grid; place-items: center;
+  width: 2.75rem; height: 2.75rem; padding: 0; border-radius: 50%; border: 1px solid var(--rim); color: var(--text); cursor: pointer;
+  background: rgba(11, 22, 40, 0.78); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35); transition: border-color 0.2s, background-color 0.2s, transform 0.2s; }
+.cmp__nav svg { width: 1.15rem; height: 1.15rem; }
+.cmp__nav:hover { border-color: rgba(125, 180, 255, 0.7); background: rgba(20, 38, 66, 0.92); }
+.cmp__nav--prev { left: -3.75rem; }
+.cmp__nav--next { right: -3.75rem; }
+.cmp__nav--prev:hover { transform: translateY(-50%) translateX(-2px); }
+.cmp__nav--next:hover { transform: translateY(-50%) translateX(2px); }
+@media (max-width: 1320px) { .cmp__nav--prev { left: 0.45rem; } .cmp__nav--next { right: 0.45rem; } }
+/* phones: the grid wraps into rows, so the arrows leave the images and sit in a row under them */
+@media (max-width: 560px) {
+  .cmp__stage { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.9rem 1.2rem; }
+  .cmp__stage > .cmp__grid { flex: 0 0 100%; }
+  .cmp__nav { position: static; transform: none; }
+  .cmp__nav--prev:hover, .cmp__nav--next:hover { transform: none; }
+}
+.cmp__count { margin: 0.9rem 0 0; text-align: center; font: 500 0.66rem var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.cmp__count:empty { display: none; }
 .cmp__grid { --cols: var(--n, 5); --gap: 0.6rem; display: flex; flex-wrap: wrap; justify-content: center; gap: var(--gap); }
 /* a centred wrap: a short last row (e.g. SEGA and AReA under three panels) sits in the middle, not on the left */
 .cmp__cell { margin: 0; flex: 0 0 calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols)); min-width: 0; }

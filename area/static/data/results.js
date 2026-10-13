@@ -43,7 +43,7 @@ window.AREA_FIG6 = {
 // Images come from the paper's Figure 5 (assets/AReA/comparison.svg); the order follows the figure.
 window.AREA_COMPARISONS = [
   {
-    id: "bottle", label: "Glass bottle", model: "FLUX.1", res: "4096 × 4096",
+    id: "bottle", bench: "Aesthetic-4K", label: "Glass bottle", model: "FLUX.1", res: "4096 × 4096",
     prompt: "A glass bottle labeled MINT rests before striped paper that bends visibly through the curved glass, with the short text spelled exactly and remaining legible without extra lettering…",
     methods: [
       {label: "UltraImage", img: "cmp-bottle-ultraimage"},
@@ -54,7 +54,7 @@ window.AREA_COMPARISONS = [
     ],
   },
   {
-    id: "sidewalk", label: "Sidewalk", model: "Qwen-Image", res: "4096 × 4096",
+    id: "sidewalk", bench: "Aesthetic-4K", label: "Sidewalk", model: "Qwen-Image", res: "4096 × 4096",
     prompt: "A woman in a black top and a green striped skirt stands on a sidewalk, looking back over her shoulder, while pedestrians walk by, including a man in a suit and a boy glancing at her…",
     methods: [
       {label: "UltraImage", img: "cmp-sidewalk-ultraimage"},
@@ -65,7 +65,7 @@ window.AREA_COMPARISONS = [
     ],
   },
   {
-    id: "footbridge", label: "Footbridge", model: "FLUX.1", res: "4096 × 4096",
+    id: "footbridge", bench: "Aesthetic-4K", label: "Footbridge", model: "FLUX.1", res: "4096 × 4096",
     prompt: "A cedar footbridge crossing a public garden collects fresh snow during a windless blue-hour evening, with a dramatic sky retaining believable cloud structure and tonal detail…",
     methods: [
       {label: "UltraImage", img: "cmp-footbridge-ultraimage"},
@@ -76,7 +76,7 @@ window.AREA_COMPARISONS = [
     ],
   },
   {
-    id: "uniforms", label: "Uniforms", model: "FLUX.1", res: "4096 × 2048",
+    id: "uniforms", bench: "Aesthetic-4K", label: "Uniforms", model: "FLUX.1", res: "4096 × 2048",
     prompt: "Four characters in detailed, ornate military-style uniforms stand side by side, each exuding a unique persona; the first two are men with various facial hair styles, intricate coat designs, and accessories, while the third…",
     methods: [
       {label: "UltraImage", img: "cmp-uniforms-ultraimage"},
@@ -84,6 +84,83 @@ window.AREA_COMPARISONS = [
       {label: "DyPE", img: "cmp-uniforms-dype"},
       {label: "SEGA", img: "cmp-uniforms-sega"},
       {label: "AReA", img: "cmp-uniforms-area", ours: true},
+    ],
+  },
+  {
+    id: "sandstone", bench: "HRGen", label: "Sandstone", model: "FLUX.1", res: "4096 × 4096",
+    prompt: "A wind-carved sandstone amphitheater opens toward a pale sunrise beneath layered clouds, with tiny footpaths and varied ground textures visible from foreground to horizon; photorealistic large-format landscape photography with restrained color.",
+    methods: [
+      {label: "UltraImage", img: "cmp-sandstone-ultraimage"},
+      {label: "SigMa", img: "cmp-sandstone-sigma"},
+      {label: "DyPE", img: "cmp-sandstone-dype"},
+      {label: "SEGA", img: "cmp-sandstone-sega"},
+      {label: "AReA", img: "cmp-sandstone-area", ours: true},
+    ],
+  },
+  {
+    id: "tiles", bench: "HRGen", label: "Tiles", model: "FLUX.1", res: "4096 × 4096",
+    prompt: "Eight blue tiles and one cracked white tile form a precise border around a single floor drain, with every item fully separable with correct occlusion, scale, and contact shadow; a precise gouache image with natural variation among repeated forms.",
+    methods: [
+      {label: "UltraImage", img: "cmp-tiles-ultraimage"},
+      {label: "SigMa", img: "cmp-tiles-sigma"},
+      {label: "DyPE", img: "cmp-tiles-dype"},
+      {label: "SEGA", img: "cmp-tiles-sega"},
+      {label: "AReA", img: "cmp-tiles-area", ours: true},
+    ],
+  },
+  {
+    id: "pigeons", bench: "HRGen", label: "Pigeons", model: "FLUX.1", res: "4096 × 4096",
+    prompt: "{{Seven}} white pigeons and a single black cat gather on the sunlit paving while the cat waits beneath a bench, with strong geometry and generous negative space supporting visual verification; cinematic realism using deep focus across all counted subjects.",
+    methods: [
+      {label: "UltraImage", img: "cmp-pigeons-ultraimage"},
+      {label: "SigMa", img: "cmp-pigeons-sigma"},
+      {label: "DyPE", img: "cmp-pigeons-dype"},
+      {label: "SEGA", img: "cmp-pigeons-sega"},
+      {label: "AReA", img: "cmp-pigeons-area", ours: true},
+    ],
+  },
+  {
+    id: "dragonfly", bench: "HRGen", label: "Dragonfly", model: "FLUX.1", res: "4096 × 4096",
+    prompt: "A dragonfly wing beaded with mist fills the frame under gently raking side light, with natural irregularities repeating at several scales across the composition; museum-quality object photography with neutral color fidelity.",
+    methods: [
+      {label: "UltraImage", img: "cmp-dragonfly-ultraimage"},
+      {label: "SigMa", img: "cmp-dragonfly-sigma"},
+      {label: "DyPE", img: "cmp-dragonfly-dype"},
+      {label: "SEGA", img: "cmp-dragonfly-sega"},
+      {label: "AReA", img: "cmp-dragonfly-area", ours: true},
+    ],
+  },
+  {
+    id: "cabbage", bench: "HRGen", label: "Cabbage", model: "FLUX.1", res: "4096 × 4096",
+    prompt: "A cross-section of purple cabbage fills the frame under gently raking side light, with minute fibers, pores, scratches, crystals, and color transitions resolved; high-magnification photorealism with controlled focus stacking.",
+    methods: [
+      {label: "UltraImage", img: "cmp-cabbage-ultraimage"},
+      {label: "SigMa", img: "cmp-cabbage-sigma"},
+      {label: "DyPE", img: "cmp-cabbage-dype"},
+      {label: "SEGA", img: "cmp-cabbage-sega"},
+      {label: "AReA", img: "cmp-cabbage-area", ours: true},
+    ],
+  },
+  {
+    id: "giraffes", bench: "HRGen", label: "Giraffes", model: "FLUX.1", res: "4096 × 4096",
+    prompt: "Two giraffes whisper across opposite balconies of a miniature hotel. Include a clearly legible small sign, tag, or handwritten card naturally integrated into the scene with text rendered exactly as: \"NOTICE A-33: keep the emergency path clear. Next inspection 10:15; contact East Gallery before 14:30.\" The full wording must be readable, correctly spelled, and preserve capitalization, punctuation, and numbers.",
+    methods: [
+      {label: "UltraImage", img: "cmp-giraffes-ultraimage"},
+      {label: "SigMa", img: "cmp-giraffes-sigma"},
+      {label: "DyPE", img: "cmp-giraffes-dype"},
+      {label: "SEGA", img: "cmp-giraffes-sega"},
+      {label: "AReA", img: "cmp-giraffes-area", ours: true},
+    ],
+  },
+  {
+    id: "raincoat", bench: "HRGen", label: "Raincoat", model: "FLUX.1", res: "4096 × 4096",
+    prompt: "A transparent raincoat over a shirt printed \"SUN\" reveals the printed shirt through overlapping wet transparent folds, with the short text spelled exactly and remaining legible without extra lettering; a realistic photograph balancing text, reflection, and depth.",
+    methods: [
+      {label: "UltraImage", img: "cmp-raincoat-ultraimage"},
+      {label: "SigMa", img: "cmp-raincoat-sigma"},
+      {label: "DyPE", img: "cmp-raincoat-dype"},
+      {label: "SEGA", img: "cmp-raincoat-sega"},
+      {label: "AReA", img: "cmp-raincoat-area", ours: true},
     ],
   },
 ];

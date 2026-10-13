@@ -476,24 +476,39 @@
   }
 
   // ---------- side-by-side comparisons (window.AREA_COMPARISONS, in static/data/results.js) ----------
+  // One comparison at a time; the arrows on either side of the images (or ← / → while the comparison has focus) step
+  // through them, wrapping around.
   function comparisons(root) {
     const sets = window.AREA_COMPARISONS || [];
     if (!root || !sets.length) return;
-    const tabs = el("div", "tabs", {role: "tablist", "aria-label": "Comparison"});
     const body = el("div");
+    const chevron = (d) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
+    const prev = el("button", "cmp__nav cmp__nav--prev", {type: "button", "aria-label": "Previous comparison"});
+    const next = el("button", "cmp__nav cmp__nav--next", {type: "button", "aria-label": "Next comparison"});
+    prev.innerHTML = chevron("M15 5l-7 7 7 7");
+    next.innerHTML = chevron("M9 5l7 7-7 7");
+    let at = 0;
     const show = (i) => {
-      const c = sets[i];
-      [...tabs.children].forEach((t, k) => t.setAttribute("aria-selected", String(k === i)));
+      at = (i + sets.length) % sets.length;
+      const c = sets[at];
+      const focused = document.activeElement;
       body.innerHTML = "";
+      groups.delete(`cmp-${c.id}`); // a fresh zoom group each time a set is shown: it opens unzoomed
       const meta = el("div", "cmp__meta");
-      // backbone and resolution, each labelled and styled apart
-      for (const [k, v, cls] of [["backbone", c.model, "pill pill--model"], ["resolution", c.res, "pill pill--res"]]) {
+      // benchmark, backbone and resolution, each labelled and styled apart
+      for (const [k, v, cls] of [["benchmark", c.bench, "pill pill--bench"], ["backbone", c.model, "pill pill--model"], ["resolution", c.res, "pill pill--res"]]) {
+        if (!v) continue;
         const pill = meta.appendChild(el("span", cls));
         pill.appendChild(el("i")).textContent = k;
         pill.appendChild(document.createTextNode(v));
       }
+      // the prompt; text wrapped in {{…}} is highlighted (e.g. a count the image should get right)
       const prompt = el("p", "prompt");
-      prompt.textContent = c.prompt;
+      c.prompt.split(/(\{\{.*?\}\})/).forEach((part) => {
+        const m = part.match(/^\{\{(.*)\}\}$/);
+        if (m) prompt.appendChild(el("strong", "prompt__hl")).textContent = m[1];
+        else if (part) prompt.appendChild(document.createTextNode(part));
+      });
       const grid = el("div", "cmp__grid");
       grid.style.setProperty("--n", c.methods.length);
       c.methods.forEach((m) => {
@@ -507,19 +522,24 @@
         grid.appendChild(fig);
         mount(host);
       });
+      // the arrows flank the images, so they sit with the grid rather than with the prompt
+      const stage = el("div", "cmp__stage");
+      stage.append(grid);
+      if (sets.length > 1) stage.append(prev, next);
+      const count = el("p", "cmp__count", {"aria-live": "polite"});
+      count.textContent = sets.length > 1 ? `${at + 1} / ${sets.length} · ${c.label}` : "";
       const hint = el("p", "caption");
       hint.innerHTML = `${c.caption ? c.caption + " " : ""}<span class="hint" style="display:block;margin-top:.3rem;font:.68rem var(--mono);letter-spacing:.06em;opacity:.75">Click any image to zoom all of them at that point · drag to pan together</span>`;
-      body.append(meta, prompt, grid, hint);
+      body.append(meta, prompt, stage, count, hint);
+      if (focused === prev || focused === next) focused.focus(); // keep keyboard focus on the arrow that was pressed
     };
-    if (sets.length > 1) {
-      sets.forEach((c, i) => {
-        const b = el("button", "tab", {type: "button", role: "tab"});
-        b.textContent = c.label;
-        b.addEventListener("click", () => show(i));
-        tabs.appendChild(b);
-      });
-      root.appendChild(tabs);
-    }
+    prev.addEventListener("click", () => show(at - 1));
+    next.addEventListener("click", () => show(at + 1));
+    root.addEventListener("keydown", (ev) => {
+      if (sets.length < 2 || (ev.key !== "ArrowLeft" && ev.key !== "ArrowRight")) return;
+      ev.preventDefault();
+      show(at + (ev.key === "ArrowRight" ? 1 : -1));
+    });
     root.appendChild(body);
     show(0);
   }

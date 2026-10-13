@@ -7,3 +7,4 @@ area/static/img/*/.source
 # AReA: large download archives stay local (GitHub caps files at 100 MB)
 area/*.zip
 area/method_compact_final_pairs/
+area_4k_figure/
