@@ -543,8 +543,6 @@ table.num tr.group td { padding-top: 0.9rem; font: 500 0.62rem var(--mono); lett
 
 /* ---------- citation, footer ---------- */
 
-.pending { margin: 0; font: 0.76rem var(--mono); letter-spacing: 0.04em; color: var(--muted); }
-
 .bib { position: relative; margin-top: 1.2rem; padding: 1.1rem 1.2rem; }
 .bib pre { margin: 0; padding-right: 4.5rem; white-space: pre-wrap; font: 0.78rem/1.6 var(--mono); color: var(--muted); }
 .bib .copy { position: absolute; top: 0.7rem; right: 0.7rem; }

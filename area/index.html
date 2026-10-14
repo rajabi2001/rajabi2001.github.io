@@ -14,7 +14,7 @@
     <link rel="icon" href="./static/img/favicon.svg" type="image/svg+xml" />
     <link rel="preload" href="./static/fonts/ibm-plex-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="./static/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="./static/css/area.css?v=9" />
+    <link rel="stylesheet" href="./static/css/area.css?v=10" />
     <script>
       document.documentElement.classList.add("js");
     </script>
@@ -390,7 +390,18 @@
       <section class="section" id="citation" data-accent="coarse">
         <div class="wrap" style="max-width: 58rem">
           <p class="kicker rv">Citation</p>
-          <p class="pending rv" data-d="1">BibTeX will appear here once the paper is public.</p>
+          <div class="bib glass rv" data-d="1">
+            <button type="button" class="copy chip" id="copy-bib">copy</button>
+            <pre id="bibtex">@misc{rajabi2026area,
+      title={AReA: Adaptive Receptive-Field Attention for Efficient High-Resolution Diffusion Transformers},
+      author={Javad Rajabi and Koorosh Roohi and David B. Lindell and Babak Taati},
+      year={2026},
+      eprint={2610.17227},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2610.17227},
+}</pre>
+          </div>
         </div>
       </section>
 
