@@ -148,8 +148,6 @@ strong { color: var(--text); font-weight: 600; }
 }
 a.chip:hover { text-decoration: none; border-color: rgba(125, 180, 255, 0.7); background: rgba(125, 180, 255, 0.1); transform: translateY(-1px); }
 .chip svg { width: 0.95rem; height: 0.95rem; flex: none; }
-.chip--soon { color: var(--muted); border-style: dashed; border-color: rgba(140, 155, 180, 0.4); box-shadow: none; cursor: default; }
-.chip--soon em { font-style: normal; opacity: 0.7; letter-spacing: 0.08em; }
 
 /* a small pointer to our previous work */
 .prev { margin: 0.9rem 0 0; }
