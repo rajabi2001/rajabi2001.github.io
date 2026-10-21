@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SpecKCast</title>
+    <meta
+      name="description"
+      content="SpecKCast: Spectral Kalman Forecasting for Diffusion Acceleration. A training-free method that forecasts the output of Diffusion Transformers in the frequency domain to skip transformer evaluations."
+    />
+    <meta name="keywords" content="SpecKCast, diffusion acceleration, diffusion transformers, feature forecasting, Kalman filter, DCT, training-free" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://rajabi2001.github.io/speckcast/" />
+    <meta property="og:title" content="SpecKCast: Spectral Kalman Forecasting for Diffusion Acceleration" />
+    <meta property="og:description" content="Training-free acceleration of Diffusion Transformers: forecast DCT coefficients with lightweight Kalman filters on band-specific time, and evaluate the transformer only when forecast uncertainty is high." />
+    <meta property="og:image" content="https://rajabi2001.github.io/speckcast/static/images/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans:400,500,700|Noto+Sans:400,700&amp;display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" />
+    <link rel="stylesheet" href="./static/css/bulma.min.css" />
+    <link rel="stylesheet" href="./static/css/index.css?v=22" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232563c9'/%3E%3Cpath d='M6 22c4-10 8-12 10-6s6 4 10-8' fill='none' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E" />
+  </head>
+  <body>
+    <!-- ============ hero ============ -->
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container is-max-desktop has-text-centered">
+          <h1 class="title publication-title">
+            <span class="name"><span class="nm-spec">Spec</span><span class="nm-k">K</span><span class="nm-cast">Cast</span></span>
+            <span class="rest"><span class="nm-spec">Spec</span>tral <span class="nm-k">K</span>alman Fore<span class="nm-cast">cast</span>ing for Diffusion Acceleration</span>
+          </h1>
+          <div class="publication-authors">
+            <span class="author-block"><a href="https://www.cs.toronto.edu/~rajabi/" target="_blank" rel="noopener">Javad Rajabi</a><sup>1,2,3,*</sup></span>
+            <span class="author-block"><a href="https://karaimer.github.io/" target="_blank" rel="noopener">Hakki Can Karaimer</a><sup>3</sup></span>
+            <span class="author-block"><a href="https://davidlindell.com/" target="_blank" rel="noopener">David B. Lindell</a><sup>1,2</sup></span>
+            <span class="author-block"><a href="https://www.cs.toronto.edu/~taati/" target="_blank" rel="noopener">Babak Taati</a><sup>1,2</sup></span>
+            <span class="author-block"><a href="https://www.eecs.yorku.ca/~mbrown/" target="_blank" rel="noopener">Michael S. Brown</a><sup>3</sup></span>
+          </div>
+          <p class="affiliations">
+            <span><sup>1</sup>University of Toronto</span>
+            <span><sup>2</sup>Vector Institute</span>
+            <span><sup>3</sup>AI Center–Toronto, Samsung</span>
+          </p>
+          <p class="footnote"><sup>*</sup>Work done during an internship at Samsung.</p>
+
+          <div class="publication-links">
+            <a class="link-btn" href="./static/files/SpecKCast_2610.26837v1.pdf" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6" /><path d="M8 13h8M8 17h5" /></svg>
+              Paper
+            </a>
+            <a class="link-btn" href="https://arxiv.org/abs/2610.26837" target="_blank" rel="noopener">
+              <i class="ai ai-arxiv" aria-hidden="true"></i>
+              arXiv
+            </a>
+            <span class="link-btn link-btn--soon" title="Code coming soon">
+              <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z" /></svg>
+              Code <em>· soon</em>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ teaser: a video example ============ -->
+    <section class="section" style="padding-top: 1rem">
+      <div class="container wide">
+        <div id="teaser" class="teaser" aria-roledescription="carousel" aria-label="Original and SpecKCast samples"></div>
+        <p class="tldr">
+          <b>SpecKCast</b> is a training-free method that accelerates diffusion transformers by forecasting their output in the
+          frequency domain with a lightweight Kalman filter. Each frequency band is forecast on its own clock, and the transformer
+          runs only when the forecast becomes too uncertain, achieving high speedup while preserving generation quality.
+        </p>
+        <div class="facts">
+          <div class="fact"><b>Faster sampling</b><span>up to 6×</span></div>
+          <div class="fact"><b>Negligible memory overhead</b><span>0.005–0.05 GiB</span></div>
+          <div class="fact"><b>Training-free</b><span>no fine-tuning or extra parameters</span></div>
+          <div class="fact"><b>Image and video models</b><span>FLUX.1&#8209;dev, Qwen&#8209;Image, Wan2.1&#8209;14B, HunyuanVideo</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ abstract ============ -->
+    <section class="section soft">
+      <div class="container narrow">
+        <h2 class="section-title">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Diffusion Transformers (DiTs) achieve high-fidelity image and video generation, but they suffer from substantial
+            inference costs due to repeated transformer evaluations across many denoising steps. Feature caching reduces this cost
+            by reusing features across denoising steps. Recent forecasting methods extend this idea by extrapolating features to
+            skipped steps instead of reusing them. However, existing forecasting methods extrapolate the features they predict
+            uniformly, even though the spatial-frequency components of these features change most at different stages of
+            denoising. They also overlook that denoising progresses nonuniformly, so equal step intervals can correspond to very
+            different amounts of change. These mismatches amplify forecast errors as more steps are skipped, limiting the
+            achievable acceleration. We propose SpecKCast, a training-free method that forecasts the model output in the frequency
+            domain. SpecKCast applies a 2D discrete cosine transform (DCT) to the output and tracks each coefficient with a
+            lightweight Kalman filter along a band-specific time coordinate derived from the noise schedule. The filter tracks each
+            coefficient’s value and rate of change, and the transformer is evaluated only when the filter’s forecast uncertainty
+            exceeds a threshold. Experiments on FLUX.1-dev, Qwen-Image, Wan2.1-14B, and HunyuanVideo show that SpecKCast achieves a
+            better trade-off between acceleration and fidelity than existing caching and forecasting methods, reaching up to 6×
+            speedup with less than 0.05 GiB of additional memory.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ visual comparisons: videos, then images ============ -->
+    <section class="section" id="comparisons">
+      <div class="container wide comparisons-wide">
+        <h2 class="section-title">Visual comparisons</h2>
+        <h3 class="sub-title">Text-to-image</h3>
+        <div id="image-sets"></div>
+
+        <h3 class="sub-title" style="margin-top: 3rem">Text-to-video</h3>
+        <div id="video-sets"></div>
+      </div>
+    </section>
+
+    <!-- ============ method ============ -->
+    <section class="section soft" id="method">
+      <div class="container wide">
+        <h2 class="section-title">Method</h2>
+        <p class="section-lede">
+          SpecKCast reduces the number of transformer evaluations during denoising. Unlike feature-caching methods, which approximate an intermediate activation and still run the remaining layers, SpecKCast forecasts the model output itself: the velocity that the sampler uses. It applies a 2D discrete cosine transform (DCT) to this output, tracks each coefficient with a Kalman filter, and evaluates the transformer when the predicted forecast uncertainty exceeds a threshold.
+        </p>
+
+        <div class="method-figure" role="img" aria-label="How SpecKCast works. 1, spatial-frequency decomposition: at computed steps the denoiser output is transformed with a 2D DCT per channel and its coefficients are grouped into seven radial bands; at skipped steps each coefficient is forecast and transformed back with the inverse DCT and passed to the sampler. 2, spectral Kalman forecasting: each band has its own time coordinate, low bands changing early and high bands late, and a Kalman filter tracks each coefficient and is updated at computed steps. 3, uncertainty-aware scheduling: the risk grows while steps are skipped and the transformer is evaluated when it reaches a threshold set per compute budget; the first three steps and the last step are always computed.">
+          <img src="./static/images/method/panel1.svg?v=2" width="420" height="380" alt="" />
+          <img src="./static/images/method/panel2.svg?v=2" width="420" height="380" alt="" />
+          <img src="./static/images/method/panel3.svg?v=2" width="420" height="380" alt="" />
+        </div>
+
+        <div class="steps">
+          <article class="step">
+            <span class="step__n">1</span>
+            <h3>Spatial-frequency decomposition</h3>
+            <p>Different spatial frequencies of the output follow different temporal dynamics: low-frequency content settles early, while high-frequency content remains active until the end of sampling. SpecKCast applies an orthonormal 2D DCT to each channel of the output and partitions the frequency plane into non-overlapping radial bands (seven by default). Each coefficient is forecast as its own temporal signal, and its band determines how its dynamics are modeled. On skipped steps, the forecast is transformed back with the inverse DCT and passed directly to the sampler.</p>
+          </article>
+          <article class="step">
+            <span class="step__n">2</span>
+            <h3>Band-specific denoising time</h3>
+            <p>Each coefficient is forecast as a function of time, but the step index does not capture the nonuniform progression of denoising. SpecKCast instead uses the log signal-to-noise ratio from the noise schedule. Because each band changes most in a different phase of denoising (early for low frequencies, late for high ones), this coordinate is warped per band using the band's calibrated signal power. The warped coordinate advances more while the band is expected to evolve and less while it is stable; the diffusion process itself is unchanged.</p>
+          </article>
+          <article class="step">
+            <span class="step__n">3</span>
+            <h3>Spectral Kalman forecasting</h3>
+            <p>A Kalman filter tracks each coefficient's value and rate of change. At every step, including skipped ones, the value advances by its rate of change, and the rate of change gradually decays; this damping limits overshooting over long skips. On computed steps, the observed coefficient corrects the state through the Kalman update. Coefficients in a band keep their own state but share the time coordinate, the covariance and the process noise; the process noise is calibrated from the band's temporal activity and adapted during sampling from observed forecast errors.</p>
+          </article>
+          <article class="step">
+            <span class="step__n">4</span>
+            <h3>Uncertainty-aware scheduling</h3>
+            <p>A fixed schedule cannot respond to changes in forecasting difficulty across generations and denoising phases. SpecKCast instead combines the per-band forecast uncertainties into a scalar risk and evaluates the transformer at the first step where the predicted risk exceeds a threshold; the first three steps and the last step are always computed. The threshold is set once per compute budget on separate calibration prompts. Because the risk adapts to the errors observed in each generation, easier generations use fewer evaluations and harder ones more, so the budget is met on average rather than for every generation.</p>
+          </article>
+        </div>
+        <p class="caption">
+          For models with classifier-free guidance, SpecKCast forecasts the guided velocity that the sampler uses, so a computed step runs both passes and a skipped step runs neither (Appendix E of the paper).
+        </p>
+
+        <h3 class="sub-title" style="margin-top: 2.8rem">Frequency bands follow different trajectories</h3>
+        <figure class="figure boxed narrow">
+          <a href="./static/images/figs/fig2_full.webp" data-zoom>
+            <img src="./static/images/figs/fig2.webp" width="1800" height="644" loading="lazy" decoding="async"
+                 alt="PCA trajectories of the 50 velocity predictions of one FLUX.1-dev generation: full velocity and radial DCT bands B0, B3 and B6" />
+          </a>
+          <span class="zoom-hint">Click to enlarge</span>
+        </figure>
+        <p class="caption">
+          <b>Figure 2.</b> PCA trajectories of the 50 velocity predictions from a single FLUX.1-dev generation, projected onto the first two principal components; larger gaps between consecutive points indicate larger changes. (a) Sampled entries of the full velocity. (b–d) Radial DCT bands: B<sub>0</sub> moves most in the first step, B<sub>3</sub> changes over a broader interval, and B<sub>6</sub> moves most after step 40. Each panel has its own PCA basis and normalization. Additional views, prompts and Qwen-Image results are in Appendix G of the paper.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ quantitative results ============ -->
+    <section class="section" id="results">
+      <div class="container wide">
+        <h2 class="section-title">Results</h2>
+        <p class="section-lede">
+          PSNR, SSIM and LPIPS measure fidelity to the 50-step reference with the same prompt and seed; ImageReward and CLIP
+          Score are computed from the image and prompt alone. All baselines use their official implementations.
+        </p>
+
+        <h3 class="sub-title">Text-to-image</h3>
+        <p class="table-intro">FLUX.1-dev at 1024×1024 and Qwen-Image at 1328×1328, DrawBench prompts.</p>
+        <div data-table="t2i" class="compact"></div>
+        <p class="caption">
+          SpecKCast has the highest speedup among the acceleration methods in all but one setting, the best PSNR and LPIPS in all
+          settings and the best SSIM in all but one. At the highest acceleration it is 1.1 dB above the strongest baseline in PSNR on
+          FLUX.1-dev (5.54×) and 2.0 dB on Qwen-Image (6.00×), and against Base, which runs at a similar speed, it is 5.5–9.0 dB
+          higher. Its extra memory is at most 0.01 GiB, against 0.73–18.97 GiB for TaylorSeer, HiCache and Spectrum.
+        </p>
+
+        <h3 class="sub-title" style="margin-top: 2.6rem">Text-to-video</h3>
+        <p class="table-intro">Wan2.1-14B and HunyuanVideo, VBench prompts and protocol.</p>
+        <div data-table="t2v" class="compact"></div>
+        <p class="caption">
+          SpecKCast has the highest or near-highest speedup in every setting, the best SSIM in all settings and the best PSNR and
+          LPIPS in most, and the best VBench Quality on Wan2.1-14B at every budget. Spectrum has slightly lower LPIPS on Wan2.1-14B at 14 and 10 NFE but uses up to 13.12 GiB of extra
+          memory, against 0.05 GiB for SpecKCast.
+        </p>
+        <p class="table-note">
+          NFE: transformer evaluations per sample. Base runs the original sampler with fewer steps to match the NFE. Mem. Δ is the
+          peak GPU memory above Base at the same NFE. VBench Quality aggregates dimensions such as temporal consistency, motion
+          smoothness and per-frame quality. Bold is copied from the paper's tables and does not always mark the column best.
+          Measured on NVIDIA H100 GPUs.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ ablation ============ -->
+    <section class="section soft">
+      <div class="container wide">
+        <h2 class="section-title">Ablation</h2>
+        <p class="section-lede">Components of SpecKCast on FLUX.1-dev at 14 NFE. The highlighted row is the full method.</p>
+        <div data-table="ablation" class="narrow-table"></div>
+        <p class="table-note">Bold marks the best and underline the second best, as in Table 3 of the paper. Fixed: a preset schedule
+          whose gaps grow linearly. Adaptive: uncertainty-aware scheduling. Taylor and Chebyshev are the forecasting rules of
+          TaylorSeer and Spectrum, run on SpecKCast's frequency bands.</p>
+        <p class="caption">
+          Under a fixed schedule, the Kalman and Taylor forecasters perform similarly, and Chebyshev is slower and less accurate.
+          Uncertainty-aware scheduling adds 2.2 dB PSNR over the fixed schedule. Band-specific time warping beats the raw log-SNR
+          by 3.3 dB and the step index by 4.7 dB, and removing the frequency decomposition costs 3.1 dB. All variants except
+          Chebyshev run within 0.1 s of each other.
+        </p>
+
+      </div>
+    </section>
+
+    <!-- ============ BibTeX ============ -->
+    <section class="section" id="bibtex">
+      <div class="container narrow">
+        <h2 class="section-title">BibTeX</h2>
+        <div class="bib">
+          <button type="button" class="tool-btn" id="copy-bib">Copy</button>
+          <pre id="bibtex-entry">@misc{rajabi2026speckcast,
+      title={SpecKCast: Spectral Kalman Forecasting for Diffusion Acceleration},
+      author={Javad Rajabi and Hakki Can Karaimer and David B. Lindell and Babak Taati and Michael S. Brown},
+      year={2026},
+      eprint={2610.26837},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2610.26837},
+}</pre>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>Page layout follows the <a href="https://github.com/nerfies/nerfies.github.io" target="_blank" rel="noopener">Nerfies</a> project-page template.</p>
+    </footer>
+
+    <script src="./static/data/tables.js?v=2"></script>
+    <script src="./static/data/teaser.js?v=2"></script>
+    <script src="./static/data/videos.js?v=3"></script>
+    <script src="./static/data/t2i.js?v=2"></script>
+    <script src="./static/js/index.js?v=13"></script>
+  </body>
+</html>

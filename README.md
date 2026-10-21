@@ -10,6 +10,7 @@ GitHub Pages site for [rajabi2001](https://github.com/rajabi2001). The root URL 
 | `/tpg/` | Token Perturbation Guidance project page — edit files under `tpg/` |
 | `/sega/` | SEGA project page — edit files under `sega/` |
 | `/area/` | AReA project page — edit files under `area/` (see `area/README.md`) |
+| `/speckcast/` | SpecKCast project page — edit files under `speckcast/` |
 
 ## Layout
 
@@ -18,5 +19,6 @@ GitHub Pages site for [rajabi2001](https://github.com/rajabi2001). The root URL 
 - **`tpg/`** — subsite for `/tpg/`; add `index.html`, local `style.css`, images, etc. here.
 - **`sega/`** — subsite for `/sega/`; same idea, kept separate from `tpg/`.
 - **`area/`** — subsite for `/area/`; self-contained, with its own image pipeline (`area/tools/`).
+- **`speckcast/`** — subsite for `/speckcast/`; self-contained like the others.
 
 Template credit: stylesheet derived from [Jon Barron’s academic site template](https://jonbarron.info/).
